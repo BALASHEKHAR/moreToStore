@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1018700996637",
+    "firebase_url": "https://mymall-fcb1a.firebaseio.com",
+    "project_id": "mymall-fcb1a",
+    "storage_bucket": "mymall-fcb1a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1018700996637:android:4c583bdae50d123fe826f4",
+        "android_client_info": {
+          "package_name": "com.example.mymart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1018700996637-kvkr3hil2bg6oc6d3dth5t2dsb740f60.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1afwkzPA6RjcfLAHYMRr_m8qacnwk1ZU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1018700996637-kvkr3hil2bg6oc6d3dth5t2dsb740f60.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

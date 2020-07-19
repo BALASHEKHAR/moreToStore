@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:elevation="3dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/sliderbackground"
+    android:layout_margin="8dp"
+    android:padding="4dp"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:weightSum="10"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/gridtitle"
+            android:layout_weight="8"
+            android:textStyle="bold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Trending"
+            android:textSize="16sp"
+            android:padding="5dp"
+            android:layout_margin="3dp"
+            android:textColor="#000"/>
+        <Button
+            android:id="@+id/gridmore"
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center_vertical"
+            android:text="view all"
+            android:textSize="12sp"
+            android:layout_marginEnd="16dp"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/colorAccent"/>
+
+    </LinearLayout>
+    <GridView
+        android:id="@+id/gridgrid"
+        android:numColumns="2"
+        android:horizontalSpacing="1dp"
+        android:verticalSpacing="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"/>
+
+
+</LinearLayout>

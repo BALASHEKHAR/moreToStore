@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/bannercontainer"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:elevation="3dp"
+    android:padding="8dp"
+android:background="@drawable/sliderbackground"
+    android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/banner_slide"
+        android:scaleType="fitCenter"
+        android:src="@android:color/holo_orange_dark"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

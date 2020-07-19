@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/sliderbackground"
+    android:layout_margin="16dp"
+    android:elevation="3dp"
+    android:padding="15dp"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/hsproductimage"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="80dp"
+        android:layout_height="75dp"
+        android:src="@drawable/ic_baseline_phone_android_24"/>
+    <TextView
+        android:id="@+id/hsproducttitle"
+        android:layout_width="match_parent"
+        android:textSize="12sp"
+        android:layout_gravity="center_horizontal"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:layout_height="wrap_content"
+        android:text="Redmi 5A"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:textSize="10sp"
+        android:id="@+id/hsproductdesc"
+        android:textAlignment="center"
+        android:textColor="#0BFF03"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content"
+        android:text="SD 425 processor"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:textSize="10sp"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/hsproductprice"
+        android:textAlignment="center"
+        android:textColor="#80000000"
+        android:layout_height="wrap_content"
+        android:text="Rs.5999/-"/>
+</LinearLayout>
