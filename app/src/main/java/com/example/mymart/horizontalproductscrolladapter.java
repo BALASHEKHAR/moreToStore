@@ -1,5 +1,6 @@
 package com.example.mymart;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,12 +50,19 @@ class horizontalproductscrolladapter extends RecyclerView.Adapter<horizontalprod
     public class Viewholder extends RecyclerView.ViewHolder {
         ImageView himage;
         TextView hname,hdesc,hprice;
-        public Viewholder(@NonNull View itemView) {
+        public Viewholder(@NonNull final View itemView) {
             super(itemView);
             himage=itemView.findViewById(R.id.hsproductimage);
             hname=itemView.findViewById(R.id.hsproducttitle);
             hdesc=itemView.findViewById(R.id.hsproductdesc);
             hprice=itemView.findViewById(R.id.hsproductprice);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(itemView.getContext(),ProductDetailsActivity.class);
+                    itemView.getContext().startActivity(intent);
+                }
+            });
         }
         private  void  setHimage(int res)
         {
