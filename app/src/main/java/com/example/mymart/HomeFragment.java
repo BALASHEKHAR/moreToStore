@@ -70,36 +70,12 @@ public class HomeFragment extends Fragment {
     }
 RecyclerView recyclerView;
     categoryAdapter categoryAdapter;
-    ////////////////////////Banner
-    int currentpage=2;
-    Timer timer;
-    ViewPager bannersliderviewpager;
-    ArrayList<sliderModel> sliderModelArrayList=new ArrayList<>();
-       long DELAY_TIME=2000;
-    long PERIOD_TIME=2000;
+    RecyclerView finalrecycler;
 
-    ////////////////////////Banner
-
-    /////strip ad
-    ImageView stripimage;
-    LinearLayout striplayout;
-
-    /////strip ad
-
-    /////////////horizontal product layout
-    TextView hsltitle;
-    Button hslmore;
-    RecyclerView hslrecyclerView;
-    ArrayList<horizontalproductmodel> horizontalproductmodelArrayList=new ArrayList<>();
-    /////////////horizontal product layout
 
 
     ///////////grid product layout
 
-
-    TextView gname;
-    Button gmore;
-    GridView ggrid;
     ///////////grid product layout
 
     @Override
@@ -133,7 +109,7 @@ RecyclerView recyclerView;
 
 
         ////////////////////////Banner
-        bannersliderviewpager=v.findViewById(R.id.banner_slider_viewpager);
+     ArrayList<sliderModel> sliderModelArrayList=new ArrayList<>();
 
         sliderModelArrayList.add(new sliderModel(R.drawable.cursor,"#077AE4"));
         sliderModelArrayList.add(new sliderModel(R.drawable.erroricon,"#077AE4"));
@@ -149,71 +125,17 @@ RecyclerView recyclerView;
         sliderModelArrayList.add(new sliderModel(R.drawable.erroricon,"#077AE4"));
         sliderModelArrayList.add(new sliderModel(R.drawable.close_icon,"#077AE4"));
         sliderModelArrayList.add(new sliderModel(R.drawable.user,"#077AE4"));
-
-
-
-        SliderAdapter sliderAdapter=new SliderAdapter(sliderModelArrayList);
-        bannersliderviewpager.setAdapter(sliderAdapter);
-        bannersliderviewpager.setClipToPadding(false);
-        bannersliderviewpager.setPageMargin(20);
-        bannersliderviewpager.setCurrentItem(currentpage);
-
-        ViewPager.OnPageChangeListener onPageChangeListener=new ViewPager.OnPageChangeListener()
-        {
-
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                currentpage=position;
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-                if(state == ViewPager.SCROLL_STATE_IDLE)
-                {
-                    pagelooper();
-
-                }
-
-            }
-
-        };
-        bannersliderviewpager.addOnPageChangeListener(onPageChangeListener);
-        bannerslideshowstart();
-        bannersliderviewpager.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                pagelooper();
-                bannerslideshowstop();
-                if(event.getAction()==MotionEvent.ACTION_UP)
-                {
-                    bannerslideshowstart();
-                }
-                return false;
-            }
-        });
-
 
 
         ////////////////////////Banner
 
         //////strop ad
-        stripimage=v.findViewById(R.id.stripimage);
-        striplayout=v.findViewById(R.id.stripadlayout);
-        stripimage.setImageResource(R.mipmap.logo);
 
         //////strop ad
 
 
         /////////////horizontal product layout
-        hslrecyclerView=v.findViewById(R.id.horizontalscrolllayourecyclerview);
-        hsltitle=v.findViewById(R.id.horizontalscrolllayouttitle);
-        hslmore=v.findViewById(R.id.horizontalscrolllayoutbutton);
+     ArrayList<horizontalproductmodel> horizontalproductmodelArrayList=new ArrayList<>();
         horizontalproductmodelArrayList.add(new horizontalproductmodel(R.drawable.ic_baseline_phone_android_24,
                 "redmi 24","SD 635 processor","RS.5999"));
         horizontalproductmodelArrayList.add(new horizontalproductmodel(R.drawable.ic_baseline_phone_android_24,
@@ -236,20 +158,12 @@ RecyclerView recyclerView;
                 "redmi 24","SD 635 processor","RS.5999"));
         horizontalproductmodelArrayList.add(new horizontalproductmodel(R.drawable.ic_baseline_phone_android_24,
                 "redmi 24","SD 635 processor","RS.5999"));
-        horizontalproductscrolladapter horizontalproductscrolladapter=new horizontalproductscrolladapter(horizontalproductmodelArrayList);
-        LinearLayoutManager linearLayoutManager1=new LinearLayoutManager(getActivity());
-        linearLayoutManager1.setOrientation(LinearLayoutManager.HORIZONTAL);
-        hslrecyclerView.setLayoutManager(linearLayoutManager1);
-        hslrecyclerView.setAdapter(horizontalproductscrolladapter);
-        horizontalproductscrolladapter.notifyDataSetChanged();
+
         /////////////horizontal product layout
 
 
         ///////////grid product layout
-        gname=v.findViewById(R.id.gridtitle);
-        gmore=v.findViewById(R.id.gridmore);
-        ggrid=v.findViewById(R.id.gridgrid);
-        ggrid.setAdapter(new gridproductadapter(horizontalproductmodelArrayList));
+
         ///////////grid product layout
 
 
@@ -258,7 +172,7 @@ RecyclerView recyclerView;
 
 
 
-        RecyclerView finalrecycler=v.findViewById(R.id.finalrecycler);
+         finalrecycler=v.findViewById(R.id.finalrecycler);
         LinearLayoutManager finallinear=new LinearLayoutManager(getActivity());
         finallinear.setOrientation(LinearLayoutManager.VERTICAL);
         finalrecycler.setLayoutManager(finallinear);
@@ -271,7 +185,7 @@ RecyclerView recyclerView;
         homePageModelArrayList.add(new HomePageModel(3,"DEALS OF THE DAY",horizontalproductmodelArrayList));
         homePageModelArrayList.add(new HomePageModel(3,"DEALS OF THE DAY",horizontalproductmodelArrayList));
         homePageModelArrayList.add(new HomePageModel(1,R.mipmap.logo,"#000000"));
-        homePageModelArrayList.add(new HomePageModel(0,sliderModelArrayList));
+       // homePageModelArrayList.add(new HomePageModel(0,sliderModelArrayList));
         homePageModelArrayList.add(new HomePageModel(1,R.mipmap.logo,"#ffff00"));
         homePageModelArrayList.add(new HomePageModel(0,sliderModelArrayList));
         homePageModelArrayList.add(new HomePageModel(1,R.mipmap.logo,"#000000"));
@@ -283,48 +197,6 @@ RecyclerView recyclerView;
         ///////// final recycler
         return v;
     }
-    ////////////////////////Banner
-    private void pagelooper()
-    {
-        if(currentpage==sliderModelArrayList.size()-2)
-        {
-            currentpage=2;
-            bannersliderviewpager.setCurrentItem(currentpage,false);
-        }
-        if(currentpage==1)
-        {
-            currentpage=sliderModelArrayList.size()-3;
-            bannersliderviewpager.setCurrentItem(currentpage,false);
-        }
 
-    }
-    private void bannerslideshowstart()
-    {
-        final Handler handler=new Handler();
-        final Runnable update=new Runnable() {
-            @Override
-            public void run() {
-                if(currentpage>=sliderModelArrayList.size())
-                {
-                    currentpage=1;
-                }
-                bannersliderviewpager.setCurrentItem(currentpage++,true);
-            }
-        };
-        timer=new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                handler.post(update);
-            }
-        },DELAY_TIME,PERIOD_TIME);
-
-    }
-    private void bannerslideshowstop()
-    {
-        timer.cancel();
-
-    }
-    ////////////////////////Banner
 
 }

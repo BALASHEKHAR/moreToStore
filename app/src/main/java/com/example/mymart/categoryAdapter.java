@@ -1,5 +1,6 @@
 package com.example.mymart;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +31,7 @@ class categoryAdapter extends RecyclerView.Adapter<categoryAdapter.categoryViewH
 categoryModel categoryModel=categoryModelArrayList.get(position);
 int icon=categoryModel.getCimage();
 String name=categoryModel.getCname();
-holder.setcatergoryname(name);
+holder.setcatergoryname(name,position);
     }
 
     @Override
@@ -51,9 +52,19 @@ holder.setcatergoryname(name);
         {
 
         }
-        private void setcatergoryname(String name)
+        private void setcatergoryname(final String name, final int position)
         {
             cname.setText(name);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(position!=0){
+                        Intent ci=new Intent(itemView.getContext(),CategoryActivity.class);
+                        ci.putExtra("title",name);
+                        itemView.getContext().startActivity(ci);
+                    }
+                }
+            });
         }
     }
 }

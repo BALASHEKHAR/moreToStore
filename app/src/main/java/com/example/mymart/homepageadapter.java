@@ -112,8 +112,8 @@ switch (homePageModelArrayList.get(position).getType())
         int currentpage=2;
         Timer timer;
         ViewPager bannersliderviewpager;
-        long DELAY_TIME=2000;
-        long PERIOD_TIME=2000;
+        long DELAY_TIME=3000;
+        long PERIOD_TIME=3000;
         public BannerSliderViewHolder(@NonNull View itemView) {
             super(itemView);
             bannersliderviewpager=itemView.findViewById(R.id.banner_slider_viewpager);
