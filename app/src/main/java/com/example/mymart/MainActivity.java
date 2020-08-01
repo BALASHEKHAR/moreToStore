@@ -27,8 +27,11 @@ import androidx.appcompat.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener{
 
+    public static final  int HOME_FRAG=0;
+    public static final  int CART_FRAG=1;
 FrameLayout defaultframe;
-
+private static int currentfrag;
+    NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,11 +44,11 @@ FrameLayout defaultframe;
                 drawer, toolbar, R.string.open_drawer, R.string.close_drawer);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        NavigationView navigationView = findViewById(R.id.nav_view);
+       navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().getItem(0).setChecked(true);
         defaultframe=findViewById(R.id.mainframlayout);
-        setfragment(new HomeFragment());
+        setfragment(new HomeFragment(),HOME_FRAG);
 
     }
 
@@ -67,8 +70,9 @@ FrameLayout defaultframe;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+        if(currentfrag==HOME_FRAG)
+       { getMenuInflater().inflate(R.menu.main, menu);
+     }   return true;
     }
 
 
@@ -87,11 +91,17 @@ FrameLayout defaultframe;
         }
         else  if(item.getItemId()==R.id.maincart)
         {
-            //TODO:
+            mycart();
             return true;
         }
         return super.onOptionsItemSelected(item);
 
+    }
+    private void mycart()
+    {
+        invalidateOptionsMenu();
+        setfragment(new MyCartFragment(),CART_FRAG);
+        navigationView.getMenu().getItem(3).setChecked(true);
     }
 
 
@@ -109,6 +119,7 @@ FrameLayout defaultframe;
         }
         else  if(id==R.id.nav_cart)
         {
+            mycart();
 
         }
         else if(id==R.id.nav_whatlist)
@@ -121,7 +132,7 @@ FrameLayout defaultframe;
         }
         else if(id==R.id.nav_home)
         {
-
+setfragment(new HomeFragment(),HOME_FRAG);
         }
         else if(id==R.id.nav_signout)
         {
@@ -131,8 +142,9 @@ FrameLayout defaultframe;
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    public void setfragment(Fragment fragment)
+    public void setfragment(Fragment fragment,int fragnumber)
     {
+        currentfrag=fragnumber;
        getSupportFragmentManager().beginTransaction().replace(defaultframe.getId(),fragment).commit();
     }
 }

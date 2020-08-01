@@ -374,13 +374,13 @@
         app:layout_constraintTop_toBottomOf="@+id/total_rating_figure" />
 
     <LinearLayout
-        android:id="@+id/rete_now_container"
+        android:id="@+id/rate_now_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:paddingBottom="56dp"
+
         android:layout_marginBottom="16dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"

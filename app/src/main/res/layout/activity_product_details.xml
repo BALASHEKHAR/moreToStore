@@ -25,9 +25,11 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="56dp"
+        android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,17 +39,68 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorAccent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="116dp">
 
             <include layout="@layout/product_images" />
 
             <include layout="@layout/product_rewards" />
-            <include layout="@layout/product_desc_layout"/>
-            <include layout="@layout/product_details_only"/>
-            <include layout="@layout/ratings_layout"/>
+
+            <include layout="@layout/product_desc_layout" />
+
+            <include layout="@layout/product_details_only" />
+
+            <include layout="@layout/ratings_layout" />
 
         </LinearLayout>
     </ScrollView>
+
+  <LinearLayout
+      android:layout_width="0dp"
+      android:layout_height="56dp"
+     android:background="@color/colorAccent"
+      android:elevation="8dp"
+      android:weightSum="2"
+      android:orientation="horizontal"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent">
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_weight="1"
+          android:id="@+id/add_to_cart_btn"
+          android:gravity="center"
+          android:background="@color/colorAccent"
+          android:orientation="horizontal">
+          <TextView
+              android:layout_width="wrap_content"
+              android:text="ADD TO CART"
+              android:gravity="center"
+              android:textColor="#485F70"
+              android:drawablePadding="8dp"
+              android:drawableEnd="@drawable/ic_baseline_shopping_cart_24"
+              android:drawableTint="#485F70"
+              android:textStyle="bold"
+              android:textSize="16sp"
+
+              android:layout_height="match_parent"
+          />
+      </LinearLayout>
+
+      <Button
+          android:layout_width="match_parent"
+          android:text="BUY NOW"
+          android:id="@+id/buy_now_btn"
+          android:textSize="16sp"
+          android:textStyle="bold"
+          android:stateListAnimator="@null"
+          android:textColor="@color/colorAccent"
+          android:background="@color/colorPrimary"
+          android:layout_height="match_parent"
+          android:layout_weight="1"/>
+
+  </LinearLayout>
 
 
 

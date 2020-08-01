@@ -1,5 +1,6 @@
 package com.example.mymart;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +34,7 @@ class gridproductadapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, final ViewGroup parent) {
         View v;
         if(convertView==null)
         {
@@ -41,6 +42,13 @@ class gridproductadapter extends BaseAdapter {
     v=LayoutInflater.from(parent.getContext()).inflate(R.layout.horizontal_scroll_item,null);
             v.setElevation(0);
             v.setBackgroundColor(Color.parseColor("#ffffff"));
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(parent.getContext(),ProductDetailsActivity.class);
+                    parent.getContext().startActivity(intent);
+                }
+            });
             ImageView productimage=v.findViewById(R.id.hsproductimage);
             TextView productname=v.findViewById(R.id.hsproducttitle);
             TextView productdesc=v.findViewById(R.id.hsproductdesc);
