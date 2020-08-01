@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/colorAccent"
+    android:elevation="3dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    android:paddingBottom="32dp"
+    android:id="@+id/productonlycontainer"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/productonlydetails"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="product Details"
+        android:background="#d4d4d4"
+        android:padding="16dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="#9c9c9c"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/productbodyonly"
+        android:layout_width="0dp"
+        android:padding="16dp"
+        android:layout_height="wrap_content"
+        android:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit. At aut dolore dolorem earum, enim laborum maxime nemo nostrum numquam omnis rerum saepe similique? Enim laborum nemo optio quisquam quod ratione!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/productonlydetails" />
+</androidx.constraintlayout.widget.ConstraintLayout>
