@@ -6,12 +6,14 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
@@ -32,6 +34,7 @@ boolean edit_to_fav=false;
 //rating
     LinearLayout ratenowlayout;
 //rating
+    Button buynow;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +46,8 @@ boolean edit_to_fav=false;
         productviewpage=findViewById(R.id.product_image_viewpager);
         producttablayout=findViewById(R.id.image_tab_layout);
         favbutton=findViewById(R.id.add_to_fav_button);
+
+        buynow=findViewById(R.id.buy_now_btn);
 
         ArrayList<Integer> productimages=new ArrayList<>();
         productimages.add(R.drawable.ic_baseline_phone_android_24);
@@ -104,6 +109,13 @@ boolean edit_to_fav=false;
             });
 
         }
+        buynow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent di=new Intent(ProductDetailsActivity.this,DeliveryActivity.class);
+              startActivity(di);
+            }
+        });
             //rating
     }
 

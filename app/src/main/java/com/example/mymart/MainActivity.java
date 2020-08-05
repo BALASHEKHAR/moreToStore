@@ -1,12 +1,16 @@
 package com.example.mymart;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
+import android.widget.ImageView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -29,16 +33,28 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 
     public static final  int HOME_FRAG=0;
     public static final  int CART_FRAG=1;
+    public static final  int ORDER_FRAG=2;
+    public static final  int WISHLIS_FRAG=3;
+    public static final  int REWARDS_FRAG=4;
+    public static final  int ACCOUNT_FRAG=5;
+
+    Window window;
+    Toolbar toolbar;
+
+    ImageView action_bar_logo;
 FrameLayout defaultframe;
-private static int currentfrag;
+private static int currentfrag=-1;
     NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        action_bar_logo=findViewById(R.id.action_bar_logo);
+         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        window=getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,
                 drawer, toolbar, R.string.open_drawer, R.string.close_drawer);
@@ -62,7 +78,16 @@ private static int currentfrag;
         }
         else
         {
+            if(currentfrag==HOME_FRAG)
             super.onBackPressed();
+            else
+            {
+              //  getSupportActionBar().setDisplayShowTitleEnabled(false);
+                action_bar_logo.setVisibility(View.VISIBLE);
+                invalidateOptionsMenu();
+                setfragment(new HomeFragment(),HOME_FRAG);
+                navigationView.getMenu().getItem(0).setChecked(true);
+            }
         }
 
     }
@@ -71,7 +96,8 @@ private static int currentfrag;
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         if(currentfrag==HOME_FRAG)
-       { getMenuInflater().inflate(R.menu.main, menu);
+       {       getSupportActionBar().setDisplayShowTitleEnabled(true);
+           getMenuInflater().inflate(R.menu.main, menu);
      }   return true;
     }
 
@@ -91,16 +117,20 @@ private static int currentfrag;
         }
         else  if(item.getItemId()==R.id.maincart)
         {
-            mycart();
+            gotoFragment("My Cart",new MyCartFragment(),CART_FRAG);
             return true;
         }
         return super.onOptionsItemSelected(item);
 
     }
-    private void mycart()
+    private void gotoFragment(String title,Fragment fragment,int currentfrag)
     {
+
+        getSupportActionBar().setTitle(title);
+        action_bar_logo.setVisibility(View.GONE);
         invalidateOptionsMenu();
-        setfragment(new MyCartFragment(),CART_FRAG);
+        setfragment(fragment,currentfrag);
+        if(currentfrag==CART_FRAG)
         navigationView.getMenu().getItem(3).setChecked(true);
     }
 
@@ -111,27 +141,33 @@ private static int currentfrag;
         int id=item.getItemId();
         if(id==R.id.nav_orders)
         {
-
+            gotoFragment("My Orders",new MyordersFragment(),ORDER_FRAG);
         }
        else if(id==R.id.nav_rewards)
         {
+            gotoFragment("My Rewars",new MyRewardsFragment(),REWARDS_FRAG);
 
         }
         else  if(id==R.id.nav_cart)
         {
-            mycart();
+            gotoFragment("My Cart",new MyCartFragment(),CART_FRAG);
 
         }
         else if(id==R.id.nav_whatlist)
         {
+            gotoFragment("My Wishlist",new WishlistFragment(),WISHLIS_FRAG);
 
         }
         else if(id==R.id.nav_account)
         {
+            gotoFragment("My Account",new MyAccountFragment(),ACCOUNT_FRAG);
 
         }
-        else if(id==R.id.nav_home)
+        else if(id==R.id.nav_mall)
         {
+          //  getSupportActionBar().setDisplayShowTitleEnabled(false);
+            action_bar_logo.setVisibility(View.VISIBLE);
+            invalidateOptionsMenu();
 setfragment(new HomeFragment(),HOME_FRAG);
         }
         else if(id==R.id.nav_signout)
@@ -144,7 +180,21 @@ setfragment(new HomeFragment(),HOME_FRAG);
     }
     public void setfragment(Fragment fragment,int fragnumber)
     {
+        if(fragnumber!=currentfrag)
+        {
+            if(fragnumber==REWARDS_FRAG)
+            {
+                toolbar.setBackgroundColor(Color.parseColor("#5B04B1"));
+                window.setStatusBarColor(Color.parseColor("#5B04B1"));
+            }
+            else
+            {                toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+
+                window.setStatusBarColor(getResources().getColor(R.color.colorPrimary));
+            }
         currentfrag=fragnumber;
-       getSupportFragmentManager().beginTransaction().replace(defaultframe.getId(),fragment).commit();
+       getSupportFragmentManager().beginTransaction().
+               setCustomAnimations(R.anim.fade_n,R.anim.fade_out).replace(defaultframe.getId(),fragment).commit();
+    }
     }
 }

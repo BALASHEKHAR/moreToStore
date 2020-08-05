@@ -7,7 +7,7 @@
         <item
             android:id="@+id/nav_mall"
             android:icon="@drawable/ic_baseline_store_mall_directory_24"
-            android:title="My orders" />
+            android:title="Home" />
         <item
             android:id="@+id/nav_orders"
            android:icon="@drawable/ic_baseline_shopping_basket_24"
@@ -19,11 +19,11 @@
         <item
             android:id="@+id/nav_cart"
             android:icon="@drawable/ic_baseline_shopping_cart_24"
-            android:title="my whistlist" />
+            android:title="my Cart" />
         <item
             android:id="@+id/nav_whatlist"
             android:icon="@drawable/ic_baseline_favorite_24"
-            android:title="my cart" />
+            android:title="my wishlist" />
 
         <item
             android:id="@+id/nav_account"
@@ -33,5 +33,5 @@
     <item
         android:id="@+id/nav_signout"
         android:icon="@drawable/ic_baseline_exit_to_app_24"
-        android:title="my whistlist" />
+        android:title="Sign Out" />
 </menu>

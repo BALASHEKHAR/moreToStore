@@ -93,7 +93,7 @@
             android:max="100"
             android:layout_height="wrap_content" />
         <ProgressBar
-            android:id="@+id/progressBar2"
+            android:id="@+id/packedshippedprogress"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_weight="1"
@@ -104,7 +104,7 @@
             android:max="100"
             android:layout_height="wrap_content" />
         <ProgressBar
-            android:id="@+id/progressBar3"
+            android:id="@+id/shippeddeliveredprogress"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_weight="1"

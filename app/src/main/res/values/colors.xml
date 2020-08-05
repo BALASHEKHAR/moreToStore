@@ -6,4 +6,5 @@
     <color name="buttonRed">#9f0000</color>
     <color name="rbuttonRed">#709f0000</color>
     <color name="success">#11A10C</color>
+    <color name="recyclerBack">#d6d6d6</color>
 </resources>
