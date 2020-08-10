@@ -60,7 +60,8 @@ public class ProductSpecficationFragment extends Fragment {
         }
     }
     RecyclerView recyclerView;
-    List<ProductSpecifiModel> productSpecifiModelList;
+    public static List<ProductSpecifiModel> productSpecifiModelList;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,8 +72,7 @@ public class ProductSpecficationFragment extends Fragment {
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(v.getContext());
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
 
-        productSpecifiModelList=new ArrayList<>();
-        productSpecifiModelList.add(new ProductSpecifiModel(0,"GENERAL"));
+      /*  productSpecifiModelList.add(new ProductSpecifiModel(0,"GENERAL"));
         productSpecifiModelList.add(new ProductSpecifiModel(1,"RAM","8GB"));
         productSpecifiModelList.add(new ProductSpecifiModel(1,"RAM","8GB"));
         productSpecifiModelList.add(new ProductSpecifiModel(1,"RAM","8GB"));
@@ -96,8 +96,9 @@ public class ProductSpecficationFragment extends Fragment {
         productSpecifiModelList.add(new ProductSpecifiModel(1,"RAM","8GB"));
         productSpecifiModelList.add(new ProductSpecifiModel(1,"RAM","8GB"));
 
-
-        ProductSpecificationAdapter productSpecificationAdapter=new ProductSpecificationAdapter(productSpecifiModelList);
+*/
+        ProductSpecificationAdapter productSpecificationAdapter=new
+                ProductSpecificationAdapter(productSpecifiModelList);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(productSpecificationAdapter);
         productSpecificationAdapter.notifyDataSetChanged();

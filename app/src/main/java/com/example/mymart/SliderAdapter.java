@@ -3,6 +3,7 @@ package com.example.mymart;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,9 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 
@@ -30,8 +34,11 @@ class SliderAdapter extends PagerAdapter {
         LinearLayout bannerContainer=v.findViewById(R.id.bannercontainer);
         bannerContainer.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(sliderModelArrayList.get(position).getColor())));
 
-        banner.setImageResource(sliderModelArrayList.get(position).getBanner());
+       // banner.setImageResource(sliderModelArrayList.get(position).getBanner());
 
+        Glide.with(container.getContext()).load(sliderModelArrayList.get(position)
+        .getBanner()).apply(new RequestOptions().placeholder(R.drawable.ic_baseline_home_24))
+                .into(banner);
         container.addView(v);
         return v;
     }

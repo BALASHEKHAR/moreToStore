@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:elevation="3dp"
-    android:padding="8dp"
+    android:padding="5dp"
 android:background="@drawable/sliderbackground"
     android:layout_height="match_parent">
     <ImageView

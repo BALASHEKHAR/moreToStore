@@ -1,13 +1,18 @@
 package com.example.mymart;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,10 +22,24 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static com.example.mymart.DBQuiries.cList;
+import static com.example.mymart.DBQuiries.cListName;
+import static com.example.mymart.DBQuiries.categoryModels;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -74,124 +93,83 @@ RecyclerView recyclerView;
 
 
 
+    FirebaseFirestore firebaseFirestore;
     ///////////grid product layout
 
     ///////////grid product layout
+    ImageView Noconnection;
+
+    homepageadapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v=inflater.inflate(R.layout.fragment_home2, container, false);
-        recyclerView=v.findViewById(R.id.categoryrecyclerview);
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getActivity());
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        recyclerView.setLayoutManager(linearLayoutManager);
-
-        ArrayList<categoryModel> categoryModels=new ArrayList<>();
-        categoryModels.add(new categoryModel(1,"home"));
-        categoryModels.add(new categoryModel(1,"phones"));
-        categoryModels.add(new categoryModel(1,"electronics"));
-        categoryModels.add(new categoryModel(1,"shops"));
-        categoryModels.add(new categoryModel(1,"others"));
-        categoryModels.add(new categoryModel(1,"lllll"));
-        categoryModels.add(new categoryModel(1,"some"));
-        categoryModels.add(new categoryModel(1,"home"));
-        categoryModels.add(new categoryModel(1,"phones"));
-        categoryModels.add(new categoryModel(1,"electronics"));
-        categoryModels.add(new categoryModel(1,"shops"));
-        categoryModels.add(new categoryModel(1,"others"));
-        categoryModels.add(new categoryModel(1,"lllll"));
-        categoryModels.add(new categoryModel(1,"some"));
-        categoryAdapter=new categoryAdapter(categoryModels);
-        recyclerView.setAdapter(categoryAdapter);
-        categoryAdapter.notifyDataSetChanged();
-
-
-        ////////////////////////Banner
-     ArrayList<sliderModel> sliderModelArrayList=new ArrayList<>();
-
-        sliderModelArrayList.add(new sliderModel(R.drawable.cursor,"#077AE4"));
-        sliderModelArrayList.add(new sliderModel(R.drawable.erroricon,"#077AE4"));
-        sliderModelArrayList.add(new sliderModel(R.drawable.close_icon,"#077AE4"));
-
-        sliderModelArrayList.add(new sliderModel(R.drawable.user,"#077AE4"));
-        sliderModelArrayList.add(new sliderModel(R.drawable.search,"#077AE4"));
-        sliderModelArrayList.add(new sliderModel(R.drawable.redmail,"#077AE4"));
-        sliderModelArrayList.add(new sliderModel(R.drawable.search,"#077AE4"));
-        sliderModelArrayList.add(new sliderModel(R.drawable.redmail,"#077AE4"));
-        sliderModelArrayList.add(new sliderModel(R.drawable.cursor,"#077AE4"));
-
-        sliderModelArrayList.add(new sliderModel(R.drawable.erroricon,"#077AE4"));
-        sliderModelArrayList.add(new sliderModel(R.drawable.close_icon,"#077AE4"));
-        sliderModelArrayList.add(new sliderModel(R.drawable.user,"#077AE4"));
-
-
-        ////////////////////////Banner
-
-        //////strop ad
-
-        //////strop ad
-
-
-        /////////////horizontal product layout
-     ArrayList<horizontalproductmodel> horizontalproductmodelArrayList=new ArrayList<>();
-        horizontalproductmodelArrayList.add(new horizontalproductmodel(R.drawable.ic_baseline_phone_android_24,
-                "redmi 24","SD 635 processor","RS.5999"));
-        horizontalproductmodelArrayList.add(new horizontalproductmodel(R.drawable.ic_baseline_phone_android_24,
-                "redmi 24","SD 635 processor","RS.5999"));
-        horizontalproductmodelArrayList.add(new horizontalproductmodel(R.drawable.ic_baseline_phone_android_24,
-                "redmi 24","SD 635 processor","RS.5999"));
-        horizontalproductmodelArrayList.add(new horizontalproductmodel(R.drawable.ic_baseline_phone_android_24,
-                "redmi 24","SD 635 processor","RS.5999"));
-        horizontalproductmodelArrayList.add(new horizontalproductmodel(R.drawable.ic_baseline_phone_android_24,
-                "redmi 24","SD 635 processor","RS.5999"));
-        horizontalproductmodelArrayList.add(new horizontalproductmodel(R.drawable.ic_baseline_phone_android_24,
-                "redmi 24","SD 635 processor","RS.5999"));
-        horizontalproductmodelArrayList.add(new horizontalproductmodel(R.drawable.ic_baseline_phone_android_24,
-                "redmi 24","SD 635 processor","RS.5999"));
-        horizontalproductmodelArrayList.add(new horizontalproductmodel(R.drawable.ic_baseline_phone_android_24,
-                "redmi 24","SD 635 processor","RS.5999"));
-        horizontalproductmodelArrayList.add(new horizontalproductmodel(R.drawable.ic_baseline_phone_android_24,
-                "redmi 24","SD 635 processor","RS.5999"));
-        horizontalproductmodelArrayList.add(new horizontalproductmodel(R.drawable.ic_baseline_phone_android_24,
-                "redmi 24","SD 635 processor","RS.5999"));
-        horizontalproductmodelArrayList.add(new horizontalproductmodel(R.drawable.ic_baseline_phone_android_24,
-                "redmi 24","SD 635 processor","RS.5999"));
-
-        /////////////horizontal product layout
-
-
-        ///////////grid product layout
-
-        ///////////grid product layout
 
 
 
-        ///////// final recycler
+        Noconnection=v.findViewById(R.id.noconnection);
+        ConnectivityManager cm=(ConnectivityManager)
+                getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo nf=cm.getActiveNetworkInfo();
+        if(nf!=null && nf.isConnected()==true)
+        {
+            Noconnection.setVisibility(View.GONE);
+
+
+            recyclerView=v.findViewById(R.id.categoryrecyclerview);
+            LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getActivity());
+            linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+            recyclerView.setLayoutManager(linearLayoutManager);
+
+
+            categoryAdapter=new categoryAdapter(categoryModels);
+            recyclerView.setAdapter(categoryAdapter);
+
+            if(categoryModels.size()==0)
+            {
+                DBQuiries.setCatergories(categoryAdapter,getContext());
+            }
+            else
+            {
+                categoryAdapter.notifyDataSetChanged();
+
+            }
+
+            finalrecycler=v.findViewById(R.id.finalrecycler);
+            LinearLayoutManager finallinear=new LinearLayoutManager(getActivity());
+            finallinear.setOrientation(LinearLayoutManager.VERTICAL);
+            finalrecycler.setLayoutManager(finallinear);
 
 
 
-         finalrecycler=v.findViewById(R.id.finalrecycler);
-        LinearLayoutManager finallinear=new LinearLayoutManager(getActivity());
-        finallinear.setOrientation(LinearLayoutManager.VERTICAL);
-        finalrecycler.setLayoutManager(finallinear);
-        ArrayList<HomePageModel> homePageModelArrayList=new ArrayList<>();
-        homePageModelArrayList.add(new HomePageModel(0,sliderModelArrayList));
-        homePageModelArrayList.add(new HomePageModel(1,R.mipmap.logo,"#000000"));
-        homePageModelArrayList.add(new HomePageModel(2,"DEALS OF THE DAY",horizontalproductmodelArrayList));
-        homePageModelArrayList.add(new HomePageModel(2,"DEALS OF THE DAY",horizontalproductmodelArrayList));
-        homePageModelArrayList.add(new HomePageModel(1,R.mipmap.logo,"#000000"));
-        homePageModelArrayList.add(new HomePageModel(3,"DEALS OF THE DAY",horizontalproductmodelArrayList));
-        homePageModelArrayList.add(new HomePageModel(3,"DEALS OF THE DAY",horizontalproductmodelArrayList));
-        homePageModelArrayList.add(new HomePageModel(1,R.mipmap.logo,"#000000"));
-       // homePageModelArrayList.add(new HomePageModel(0,sliderModelArrayList));
-        homePageModelArrayList.add(new HomePageModel(1,R.mipmap.logo,"#ffff00"));
-        homePageModelArrayList.add(new HomePageModel(0,sliderModelArrayList));
-        homePageModelArrayList.add(new HomePageModel(1,R.mipmap.logo,"#000000"));
-        homepageadapter adapter=new homepageadapter(homePageModelArrayList);
-        finalrecycler.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+
+            if(cList.size()==0)
+            { cList.add(new ArrayList<HomePageModel>());
+                cListName.add("HOME");
+                adapter=new homepageadapter(cList.get(0));
+
+                DBQuiries.setFragmentdata(adapter,getContext(),0,"Home");
+            }
+            else
+            { adapter=new homepageadapter(cList.get(0));
+                adapter.notifyDataSetChanged();
+
+            }
+            finalrecycler.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+
+
+
+        }
+        else
+        {
+            Glide.with(this).load(R.drawable.noconnection).into(Noconnection);
+            Noconnection.setVisibility(View.VISIBLE);
+        }
+
+
 
 
         ///////// final recycler

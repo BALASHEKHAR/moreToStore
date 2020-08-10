@@ -1,17 +1,25 @@
 package com.example.mymart;
 
+import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -29,6 +37,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import static com.example.mymart.RegisterActivity.signupfrag;
+
 public class MainActivity extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener{
 
     public static final  int HOME_FRAG=0;
@@ -38,12 +48,15 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
     public static final  int REWARDS_FRAG=4;
     public static final  int ACCOUNT_FRAG=5;
 
+
+    public  static boolean showcart=false;
+
     Window window;
     Toolbar toolbar;
 
     ImageView action_bar_logo;
 FrameLayout defaultframe;
-private static int currentfrag=-1;
+private  int currentfrag=-1;
     NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,15 +69,28 @@ private static int currentfrag=-1;
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,
-                drawer, toolbar, R.string.open_drawer, R.string.close_drawer);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+
        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().getItem(0).setChecked(true);
         defaultframe=findViewById(R.id.mainframlayout);
-        setfragment(new HomeFragment(),HOME_FRAG);
+        if(showcart)
+        {
+            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            gotoFragment("My Cart", new MyCartFragment(),-2);
+        }
+        else {
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,
+                    drawer, toolbar, R.string.open_drawer, R.string.close_drawer);
+            drawer.addDrawerListener(toggle);
+            toggle.syncState();
+            setfragment(new HomeFragment(),HOME_FRAG);
+        }
+
+
+
+
 
     }
 
@@ -79,15 +105,24 @@ private static int currentfrag=-1;
         else
         {
             if(currentfrag==HOME_FRAG)
-            super.onBackPressed();
+          {currentfrag=-1;
+          super.onBackPressed();}
             else
             {
+                if(showcart)
+                {
+                    showcart=false;
+                    finish();
+                }
+                else{
+
+
               //  getSupportActionBar().setDisplayShowTitleEnabled(false);
                 action_bar_logo.setVisibility(View.VISIBLE);
                 invalidateOptionsMenu();
                 setfragment(new HomeFragment(),HOME_FRAG);
                 navigationView.getMenu().getItem(0).setChecked(true);
-            }
+            }  }
         }
 
     }
@@ -117,8 +152,44 @@ private static int currentfrag=-1;
         }
         else  if(item.getItemId()==R.id.maincart)
         {
-            gotoFragment("My Cart",new MyCartFragment(),CART_FRAG);
+            final Dialog signinDialog=new Dialog(MainActivity.this);
+            signinDialog.setContentView(R.layout.signindialog);
+            signinDialog.setCancelable(true);
+            signinDialog.getWindow().setLayout(ViewGroup.
+                    LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+            Button signIn=signinDialog.findViewById(R.id.SignInbtn);
+            Button signout=signinDialog.findViewById(R.id.signupbtn);
+            final Intent i=new Intent(MainActivity.this,RegisterActivity.class);
+signIn.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        signinDialog.dismiss();
+        signupfrag=false;
+        startActivity(i);
+
+    }
+});
+            signout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    signinDialog.dismiss();
+                    signupfrag=true;
+                    startActivity(i);
+                }
+            });
+            signinDialog.show();
+           // gotoFragment("My Cart",new MyCartFragment(),CART_FRAG);
             return true;
+        }
+        else if(item.getItemId()==android.R.id.home)
+        {
+            if(showcart)
+            {
+                showcart=false;
+                finish();
+                return  true;
+            }
+
         }
         return super.onOptionsItemSelected(item);
 

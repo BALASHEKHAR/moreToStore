@@ -1,23 +1,35 @@
 package com.example.mymart;
 
 class horizontalproductmodel {
-    int pimage;
+    String pimage;
     String pname;
     String pdesc;
     String pprice;
+    String product_ID;
 
-    public horizontalproductmodel(int pimage, String pname, String pdesc, String pprice) {
+    public horizontalproductmodel(String product_ID,
+                                  String pimage,
+                                  String pname, String pdesc, String pprice) {
         this.pimage = pimage;
         this.pname = pname;
         this.pdesc = pdesc;
+        this.product_ID=product_ID;
         this.pprice = pprice;
     }
 
-    public int getPimage() {
+    public String getProduct_ID() {
+        return product_ID;
+    }
+
+    public void setProduct_ID(String product_ID) {
+        this.product_ID = product_ID;
+    }
+
+    public String getPimage() {
         return pimage;
     }
 
-    public void setPimage(int pimage) {
+    public void setPimage(String pimage) {
         this.pimage = pimage;
     }
 

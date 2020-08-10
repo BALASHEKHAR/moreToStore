@@ -15,6 +15,7 @@
         android:layout_marginEnd="1dp"
         android:orientation="horizontal"
         android:paddingLeft="16dp"
+
         android:paddingRight="16dp"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
@@ -24,20 +25,21 @@
 
         <TextView
             android:id="@+id/futureName"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:text="feature Name"
             android:textSize="12sp"
+
             android:textColor="#868686"
             android:textStyle="bold" />
 
         <TextView
             android:textSize="12sp"
             android:id="@+id/featureValue"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:text="feature Value" />
     </LinearLayout>
 

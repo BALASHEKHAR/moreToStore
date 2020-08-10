@@ -1,15 +1,15 @@
 package com.example.mymart;
 
 class categoryModel {
-    private int cimage;
+    private String cimage;
     private String cname;
 
-    public categoryModel(int cimage, String cname) {
+    public categoryModel(String cimage, String cname) {
         this.cimage = cimage;
         this.cname = cname;
     }
 
-    public void setCimage(int cimage) {
+    public void setCimage(String cimage) {
         this.cimage = cimage;
     }
 
@@ -17,7 +17,7 @@ class categoryModel {
         this.cname = cname;
     }
 
-    public int getCimage() {
+    public String getCimage() {
         return cimage;
     }
 

@@ -10,6 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.util.ArrayList;
 
 class categoryAdapter extends RecyclerView.Adapter<categoryAdapter.categoryViewHolder> {
@@ -29,9 +32,10 @@ class categoryAdapter extends RecyclerView.Adapter<categoryAdapter.categoryViewH
     @Override
     public void onBindViewHolder(@NonNull categoryViewHolder holder, int position) {
 categoryModel categoryModel=categoryModelArrayList.get(position);
-int icon=categoryModel.getCimage();
+        String icon=categoryModel.getCimage();
 String name=categoryModel.getCname();
 holder.setcatergoryname(name,position);
+holder.setcategoryicon(icon);
     }
 
     @Override
@@ -48,10 +52,13 @@ holder.setcatergoryname(name,position);
             cimage=itemView.findViewById(R.id.cimage);
             cname=itemView.findViewById(R.id.cname);
         }
-        private void setcategoryicon()
+        private void setcategoryicon(String uri)
         {
 
+            Glide.with(itemView.getContext()).load(uri).apply(new RequestOptions()
+            .placeholder(R.drawable.ic_baseline_home_24)).into(cimage);
         }
+
         private void setcatergoryname(final String name, final int position)
         {
             cname.setText(name);

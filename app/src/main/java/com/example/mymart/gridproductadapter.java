@@ -9,6 +9,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.util.ArrayList;
 
 class gridproductadapter extends BaseAdapter {
@@ -20,7 +23,7 @@ class gridproductadapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 4;
+        return horizontalproductmodelArrayList.size();
     }
 
     @Override
@@ -53,7 +56,9 @@ class gridproductadapter extends BaseAdapter {
             TextView productname=v.findViewById(R.id.hsproducttitle);
             TextView productdesc=v.findViewById(R.id.hsproductdesc);
             TextView productprice=v.findViewById(R.id.hsproductprice);
-            productimage.setImageResource(horizontalproductmodelArrayList.get(position).getPimage());
+         //   productimage.setImageResource(horizontalproductmodelArrayList.get(position).getPimage());
+            Glide.with(parent.getContext()).load(horizontalproductmodelArrayList.get(position).getPimage()).
+                    apply(new RequestOptions().placeholder(R.drawable.ic_baseline_home_24)).into(productimage);
             productname.setText(horizontalproductmodelArrayList.get(position).getPname());
             productdesc.setText(horizontalproductmodelArrayList.get(position).getPdesc());
             productprice.setText(horizontalproductmodelArrayList.get(position).getPprice());

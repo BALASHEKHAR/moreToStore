@@ -1,6 +1,7 @@
 package com.example.mymart;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 
@@ -28,7 +32,7 @@ class horizontalproductscrolladapter extends RecyclerView.Adapter<horizontalprod
 
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
-        int res=horizontalproductmodelArrayList.get(position).getPimage();
+        String res=horizontalproductmodelArrayList.get(position).getPimage();
         String hname=horizontalproductmodelArrayList.get(position).getPname();
         String hdesc=horizontalproductmodelArrayList.get(position).getPdesc();
         String hprice=horizontalproductmodelArrayList.get(position).getPprice();
@@ -50,6 +54,7 @@ class horizontalproductscrolladapter extends RecyclerView.Adapter<horizontalprod
     public class Viewholder extends RecyclerView.ViewHolder {
         ImageView himage;
         TextView hname,hdesc,hprice;
+        View i;
         public Viewholder(@NonNull final View itemView) {
             super(itemView);
             himage=itemView.findViewById(R.id.hsproductimage);
@@ -64,9 +69,11 @@ class horizontalproductscrolladapter extends RecyclerView.Adapter<horizontalprod
                 }
             });
         }
-        private  void  setHimage(int res)
+        private  void  setHimage(String res)
         {
-            himage.setImageResource(res);
+           // Log.d("uel",res);
+            Glide.with(itemView.getContext()).load(res).apply(new RequestOptions()
+                    .placeholder(R.drawable.ic_baseline_home_24)).into(himage);
         }
         public void setHname(String s)
         {
@@ -80,7 +87,7 @@ class horizontalproductscrolladapter extends RecyclerView.Adapter<horizontalprod
         }
         public void setHprice(String s)
         {
-hprice.setText(s);
+hprice.setText("RS: "+s+"/-");
 
         }
 

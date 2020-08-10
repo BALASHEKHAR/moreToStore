@@ -13,26 +13,32 @@ import android.view.MenuItem;
 
 import java.util.ArrayList;
 
+import static com.example.mymart.DBQuiries.cList;
+import static com.example.mymart.DBQuiries.cListName;
+
 public class CategoryActivity extends AppCompatActivity {
 
 RecyclerView caterecycler;
+    Toolbar toolbar;
+    String title;
+    homepageadapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+     //    = findViewById(R.id.toolbar);
+        title=getIntent().getStringExtra("title");
         setSupportActionBar(toolbar);
         caterecycler=findViewById(R.id.caterecycler);
-        toolbar.setTitle(getIntent().getStringExtra("title"));
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setTitle(title);
 
-        ////////
 
 
-        ////////////////////////Banner
-        ArrayList<sliderModel> sliderModelArrayList=new ArrayList<>();
-
-        sliderModelArrayList.add(new sliderModel(R.drawable.cursor,"#077AE4"));
+      /*  sliderModelArrayList.add(new sliderModel(R.drawable.cursor,"#077AE4"));
         sliderModelArrayList.add(new sliderModel(R.drawable.erroricon,"#077AE4"));
         sliderModelArrayList.add(new sliderModel(R.drawable.close_icon,"#077AE4"));
 
@@ -45,7 +51,7 @@ RecyclerView caterecycler;
 
         sliderModelArrayList.add(new sliderModel(R.drawable.erroricon,"#077AE4"));
         sliderModelArrayList.add(new sliderModel(R.drawable.close_icon,"#077AE4"));
-        sliderModelArrayList.add(new sliderModel(R.drawable.user,"#077AE4"));
+        sliderModelArrayList.add(new sliderModel(R.drawable.user,"#077AE4"));*/
 
 
         ////////////////////////Banner
@@ -56,29 +62,7 @@ RecyclerView caterecycler;
 
 
         /////////////horizontal product layout
-        ArrayList<horizontalproductmodel> horizontalproductmodelArrayList=new ArrayList<>();
-        horizontalproductmodelArrayList.add(new horizontalproductmodel(R.drawable.ic_baseline_phone_android_24,
-                "redmi 24","SD 635 processor","RS.5999"));
-        horizontalproductmodelArrayList.add(new horizontalproductmodel(R.drawable.ic_baseline_phone_android_24,
-                "redmi 24","SD 635 processor","RS.5999"));
-        horizontalproductmodelArrayList.add(new horizontalproductmodel(R.drawable.ic_baseline_phone_android_24,
-                "redmi 24","SD 635 processor","RS.5999"));
-        horizontalproductmodelArrayList.add(new horizontalproductmodel(R.drawable.ic_baseline_phone_android_24,
-                "redmi 24","SD 635 processor","RS.5999"));
-        horizontalproductmodelArrayList.add(new horizontalproductmodel(R.drawable.ic_baseline_phone_android_24,
-                "redmi 24","SD 635 processor","RS.5999"));
-        horizontalproductmodelArrayList.add(new horizontalproductmodel(R.drawable.ic_baseline_phone_android_24,
-                "redmi 24","SD 635 processor","RS.5999"));
-        horizontalproductmodelArrayList.add(new horizontalproductmodel(R.drawable.ic_baseline_phone_android_24,
-                "redmi 24","SD 635 processor","RS.5999"));
-        horizontalproductmodelArrayList.add(new horizontalproductmodel(R.drawable.ic_baseline_phone_android_24,
-                "redmi 24","SD 635 processor","RS.5999"));
-        horizontalproductmodelArrayList.add(new horizontalproductmodel(R.drawable.ic_baseline_phone_android_24,
-                "redmi 24","SD 635 processor","RS.5999"));
-        horizontalproductmodelArrayList.add(new horizontalproductmodel(R.drawable.ic_baseline_phone_android_24,
-                "redmi 24","SD 635 processor","RS.5999"));
-        horizontalproductmodelArrayList.add(new horizontalproductmodel(R.drawable.ic_baseline_phone_android_24,
-                "redmi 24","SD 635 processor","RS.5999"));
+     //   ArrayList<horizontalproductmodel> horizontalproductmodelArrayList=new ArrayList<>();
 
         /////////////horizontal product layout
 
@@ -95,8 +79,8 @@ RecyclerView caterecycler;
         finallinear.setOrientation(LinearLayoutManager.VERTICAL);
         caterecycler.setLayoutManager(finallinear);
 
-        ArrayList<HomePageModel> homePageModelArrayList=new ArrayList<>();
-        homePageModelArrayList.add(new HomePageModel(0,sliderModelArrayList));
+     //   ArrayList<HomePageModel> homePageModelArrayList=new ArrayList<>();
+       /* homePageModelArrayList.add(new HomePageModel(0,sliderModelArrayList));
         homePageModelArrayList.add(new HomePageModel(1,R.mipmap.logo,"#000000"));
         homePageModelArrayList.add(new HomePageModel(2,"DEALS OF THE DAY",horizontalproductmodelArrayList));
         homePageModelArrayList.add(new HomePageModel(2,"DEALS OF THE DAY",horizontalproductmodelArrayList));
@@ -105,8 +89,29 @@ RecyclerView caterecycler;
         homePageModelArrayList.add(new HomePageModel(3,"DEALS OF THE DAY",horizontalproductmodelArrayList));
         homePageModelArrayList.add(new HomePageModel(1,R.mipmap.logo,"#000000"));
         homePageModelArrayList.add(new HomePageModel(1,R.mipmap.logo,"#ffff00"));
-        homePageModelArrayList.add(new HomePageModel(1,R.mipmap.logo,"#000000"));
-        homepageadapter adapter=new homepageadapter(homePageModelArrayList);
+        homePageModelArrayList.add(new HomePageModel(1,R.mipmap.logo,"#000000"));*/
+
+       int listpos=0;
+       for(int x=0;x<cListName.size(); x++)
+       {
+           if(cListName.get(x).equals(title.toUpperCase()))
+           {
+               listpos=x;
+           }
+       }
+       if(listpos==0)
+       { cList.add(new ArrayList<HomePageModel>());
+           cListName.add(title.toUpperCase());
+           adapter=new homepageadapter(cList.get(cListName.size()-1));
+
+           DBQuiries.setFragmentdata(adapter,this,cListName.size()-1,title);
+       }
+       else
+       {
+           adapter=new homepageadapter(cList.get(listpos));
+
+       }
+
         caterecycler.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 

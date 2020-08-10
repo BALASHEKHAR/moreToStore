@@ -23,11 +23,6 @@
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:adjustViewBounds="true"
-                android:src="@mipmap/logo" />
         </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>

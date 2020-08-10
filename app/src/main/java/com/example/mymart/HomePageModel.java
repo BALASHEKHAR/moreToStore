@@ -1,6 +1,7 @@
 package com.example.mymart;
 
 import java.util.ArrayList;
+import java.util.List;
 
 class HomePageModel {
     public static final int banner=0;
@@ -8,7 +9,7 @@ class HomePageModel {
     public static final int horizontaproduct=2;
     public static final int gridaproduct=3;
     private  int type;
-
+    String color;
     ////banner slider
     ArrayList<sliderModel> sliderModelArrayList;
     public HomePageModel(int type, ArrayList<sliderModel> sliderModelArrayList) {
@@ -30,20 +31,20 @@ class HomePageModel {
     ////banner slider
 
     //strip ad
-    int res;
-    String color;
+    String res;
 
-    public HomePageModel(int type, int res, String color) {
+
+    public HomePageModel(int type, String res, String color) {
         this.type = type;
         this.res = res;
         this.color = color;
     }
 
-    public int getRes() {
+    public String getRes() {
         return res;
     }
 
-    public void setRes(int res) {
+    public void setRes(String res) {
         this.res = res;
     }
 
@@ -59,10 +60,32 @@ class HomePageModel {
     ///horizontal product and grid product
     String hptitle;
     ArrayList<horizontalproductmodel> horizontalproductmodelArrayList;
+List<Wishist_model> viewallmylist;
 
-    public HomePageModel(int type, String hptitle, ArrayList<horizontalproductmodel> horizontalproductmodelArrayList) {
+    public List<Wishist_model> getViewallmylist() {
+        return viewallmylist;
+    }
+
+    public void setViewallmylist(List<Wishist_model> viewallmylist) {
+        this.viewallmylist = viewallmylist;
+    }
+
+    public HomePageModel(int type, String hptitle, String background,
+                         ArrayList<horizontalproductmodel> horizontalproductmodelArrayList,
+                         List<Wishist_model> viewallmylist) {
+        this.type = type;
+        this.viewallmylist=viewallmylist;
+        this.hptitle = hptitle;
+        this.color=background;
+        this.horizontalproductmodelArrayList = horizontalproductmodelArrayList;
+    }
+
+
+
+    public HomePageModel(int type, String hptitle, String background,ArrayList<horizontalproductmodel> horizontalproductmodelArrayList) {
         this.type = type;
         this.hptitle = hptitle;
+        this.color=background;
         this.horizontalproductmodelArrayList = horizontalproductmodelArrayList;
     }
 

@@ -1,14 +1,14 @@
 package com.example.mymart;
 
 class sliderModel {
-    int banner;
+    String banner;
     String color;
 
-    public int getBanner() {
+    public String getBanner() {
         return banner;
     }
 
-    public void setBanner(int banner) {
+    public void setBanner(String banner) {
         this.banner = banner;
     }
 
@@ -20,7 +20,7 @@ class sliderModel {
         this.color = color;
     }
 
-    public sliderModel(int banner, String color) {
+    public sliderModel(String banner, String color) {
         this.banner = banner;
         this.color = color;
     }

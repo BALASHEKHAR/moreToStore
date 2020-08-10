@@ -12,6 +12,7 @@
         android:id="@+id/hsproductimage"
         android:layout_gravity="center_horizontal"
         android:layout_width="80dp"
+        android:scaleType="fitCenter"
         android:layout_height="75dp"
         android:src="@drawable/ic_baseline_phone_android_24"/>
     <TextView
