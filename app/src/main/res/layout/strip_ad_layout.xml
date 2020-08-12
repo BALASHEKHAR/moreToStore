@@ -9,8 +9,8 @@
         android:layout_height="100dp"
         android:paddingBottom="3dp"
         android:paddingTop="3dp"
-        android:scaleType="centerCrop"
+        android:scaleType="fitCenter"
         android:background="@color/colorPrimary"
-        android:src="@mipmap/logo"/>
+        android:src="@drawable/bplaceholder"/>
 
 </LinearLayout>

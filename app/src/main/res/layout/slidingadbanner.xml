@@ -5,6 +5,7 @@
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/banner_slider_viewpager"
         android:layout_width="match_parent"
+        android:background="@color/recyclerBack"
         android:padding="5dp"
         android:layout_height="230dp"/>
 

@@ -23,6 +23,8 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -47,12 +49,16 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
     public static final  int WISHLIS_FRAG=3;
     public static final  int REWARDS_FRAG=4;
     public static final  int ACCOUNT_FRAG=5;
+    public  static  DrawerLayout drawer;
+
+    FirebaseUser currentUser;
 
 
     public  static boolean showcart=false;
 
     Window window;
     Toolbar toolbar;
+     Dialog signinDialog;
 
     ImageView action_bar_logo;
 FrameLayout defaultframe;
@@ -68,7 +74,7 @@ private  int currentfrag=-1;
         window=getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+         drawer = findViewById(R.id.drawer_layout);
 
        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -89,7 +95,55 @@ private  int currentfrag=-1;
         }
 
 
+        signinDialog  =new Dialog(MainActivity.this);
+        signinDialog.setContentView(R.layout.signindialog);
+        signinDialog.setCancelable(true);
+        signinDialog.getWindow().setLayout(ViewGroup.
+                LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        Button signIn=signinDialog.findViewById(R.id.SignInbtn);
+        Button signout=signinDialog.findViewById(R.id.signupbtn);
+        final Intent i=new Intent(MainActivity.this,RegisterActivity.class);
+        signIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SignupFragment.disbale_close_button=true;
+                SiginFragment.disbale_close_button=true;
+                signinDialog.dismiss();
+                signupfrag=false;
+                startActivity(i);
 
+            }
+        });
+        signout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SignupFragment.disbale_close_button=true;
+                SiginFragment.disbale_close_button=true;
+                signinDialog.dismiss();
+                signupfrag=true;
+                startActivity(i);
+            }
+        });
+
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        currentUser= FirebaseAuth.getInstance().getCurrentUser();
+
+
+        if(currentUser==null)
+        {
+            navigationView.getMenu().getItem(navigationView.getMenu().size()-1
+            ).setEnabled(false);
+        }
+        else
+        {
+            navigationView.getMenu().getItem(navigationView.getMenu().size()-1
+            ).setEnabled(true);
+        }
 
 
     }
@@ -152,33 +206,11 @@ private  int currentfrag=-1;
         }
         else  if(item.getItemId()==R.id.maincart)
         {
-            final Dialog signinDialog=new Dialog(MainActivity.this);
-            signinDialog.setContentView(R.layout.signindialog);
-            signinDialog.setCancelable(true);
-            signinDialog.getWindow().setLayout(ViewGroup.
-                    LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-            Button signIn=signinDialog.findViewById(R.id.SignInbtn);
-            Button signout=signinDialog.findViewById(R.id.signupbtn);
-            final Intent i=new Intent(MainActivity.this,RegisterActivity.class);
-signIn.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        signinDialog.dismiss();
-        signupfrag=false;
-        startActivity(i);
 
-    }
-});
-            signout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    signinDialog.dismiss();
-                    signupfrag=true;
-                    startActivity(i);
-                }
-            });
+            if(currentUser==null)
             signinDialog.show();
-           // gotoFragment("My Cart",new MyCartFragment(),CART_FRAG);
+            else
+           gotoFragment("My Cart",new MyCartFragment(),CART_FRAG);
             return true;
         }
         else if(item.getItemId()==android.R.id.home)
@@ -209,45 +241,66 @@ signIn.setOnClickListener(new View.OnClickListener() {
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int id=item.getItemId();
-        if(id==R.id.nav_orders)
-        {
-            gotoFragment("My Orders",new MyordersFragment(),ORDER_FRAG);
-        }
-       else if(id==R.id.nav_rewards)
-        {
-            gotoFragment("My Rewars",new MyRewardsFragment(),REWARDS_FRAG);
 
-        }
-        else  if(id==R.id.nav_cart)
-        {
-            gotoFragment("My Cart",new MyCartFragment(),CART_FRAG);
+        drawer=(DrawerLayout)findViewById(R.id.drawer_layout);
 
-        }
-        else if(id==R.id.nav_whatlist)
+        if(currentUser!=null)
         {
-            gotoFragment("My Wishlist",new WishlistFragment(),WISHLIS_FRAG);
+            drawer.closeDrawer(GravityCompat.START);
+            int id=item.getItemId();
+            if(id==R.id.nav_orders)
+            {
+                gotoFragment("My Orders",new MyordersFragment(),ORDER_FRAG);
+            }
+            else if(id==R.id.nav_rewards)
+            {
+                gotoFragment("My Rewars",new MyRewardsFragment(),REWARDS_FRAG);
 
-        }
-        else if(id==R.id.nav_account)
-        {
-            gotoFragment("My Account",new MyAccountFragment(),ACCOUNT_FRAG);
+            }
+            else  if(id==R.id.nav_cart)
+            {
+                gotoFragment("My Cart",new MyCartFragment(),CART_FRAG);
 
-        }
-        else if(id==R.id.nav_mall)
-        {
-          //  getSupportActionBar().setDisplayShowTitleEnabled(false);
-            action_bar_logo.setVisibility(View.VISIBLE);
-            invalidateOptionsMenu();
-setfragment(new HomeFragment(),HOME_FRAG);
-        }
-        else if(id==R.id.nav_signout)
-        {
+            }
+            else if(id==R.id.nav_whatlist)
+            {
+                gotoFragment("My Wishlist",new WishlistFragment(),WISHLIS_FRAG);
 
+            }
+            else if(id==R.id.nav_account)
+            {
+                gotoFragment("My Account",new MyAccountFragment(),ACCOUNT_FRAG);
+
+            }
+            else if(id==R.id.nav_mall)
+            {
+                //  getSupportActionBar().setDisplayShowTitleEnabled(false);
+                action_bar_logo.setVisibility(View.VISIBLE);
+                invalidateOptionsMenu();
+                setfragment(new HomeFragment(),HOME_FRAG);
+            }
+            else if(id==R.id.nav_signout)
+            {
+                FirebaseAuth.getInstance().signOut();
+                DBQuiries.clearData();
+                Intent i=new Intent(MainActivity.this,
+                        RegisterActivity.class);
+                startActivity(i);
+                finish();
+
+            }
+
+            return true;
         }
-        DrawerLayout drawer=(DrawerLayout)findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
+        else
+        {
+            drawer.closeDrawer(GravityCompat.START);
+            signinDialog.show();
+            return false;
+        }
+
+
+
     }
     public void setfragment(Fragment fragment,int fragnumber)
     {

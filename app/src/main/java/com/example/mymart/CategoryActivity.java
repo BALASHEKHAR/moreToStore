@@ -12,11 +12,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.example.mymart.DBQuiries.cList;
 import static com.example.mymart.DBQuiries.cListName;
 
 public class CategoryActivity extends AppCompatActivity {
+    List<HomePageModel> homePageModelfakeList=new ArrayList<>();
 
 RecyclerView caterecycler;
     Toolbar toolbar;
@@ -36,60 +38,61 @@ RecyclerView caterecycler;
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setTitle(title);
 
+////home fake list
 
 
-      /*  sliderModelArrayList.add(new sliderModel(R.drawable.cursor,"#077AE4"));
-        sliderModelArrayList.add(new sliderModel(R.drawable.erroricon,"#077AE4"));
-        sliderModelArrayList.add(new sliderModel(R.drawable.close_icon,"#077AE4"));
+        ArrayList<sliderModel> sliderModelList = new ArrayList<>();
+        sliderModelList.add(new sliderModel("null", "#ffffff"));
+        sliderModelList.add(new sliderModel("null", "#ffffff"));
+        sliderModelList.add(new sliderModel("null", "#ffffff"));
+        sliderModelList.add(new sliderModel("null", "#ffffff"));
+        sliderModelList.add(new sliderModel("null", "#ffffff"));
+        sliderModelList.add(new sliderModel("null", "#ffffff"));
+        sliderModelList.add(new sliderModel("null", "#ffffff"));
 
-        sliderModelArrayList.add(new sliderModel(R.drawable.user,"#077AE4"));
-        sliderModelArrayList.add(new sliderModel(R.drawable.search,"#077AE4"));
-        sliderModelArrayList.add(new sliderModel(R.drawable.redmail,"#077AE4"));
-        sliderModelArrayList.add(new sliderModel(R.drawable.search,"#077AE4"));
-        sliderModelArrayList.add(new sliderModel(R.drawable.redmail,"#077AE4"));
-        sliderModelArrayList.add(new sliderModel(R.drawable.cursor,"#077AE4"));
+        ArrayList<horizontalproductmodel> horizontalproductmodelList =
+                new ArrayList<>();
+        horizontalproductmodelList.add(new horizontalproductmodel("",
+                "", "", "", ""));
+        horizontalproductmodelList.add(new horizontalproductmodel("",
+                "", "", "", ""));
+        horizontalproductmodelList.add(new horizontalproductmodel("",
+                "", "", "", ""));
+        horizontalproductmodelList.add(new horizontalproductmodel("",
+                "", "", "", ""));
+        horizontalproductmodelList.add(new horizontalproductmodel("",
+                "", "", "", ""));
+        horizontalproductmodelList.add(new horizontalproductmodel("",
+                "", "", "", ""));
+        horizontalproductmodelList.add(new horizontalproductmodel("",
+                "", "", "", ""));
 
-        sliderModelArrayList.add(new sliderModel(R.drawable.erroricon,"#077AE4"));
-        sliderModelArrayList.add(new sliderModel(R.drawable.close_icon,"#077AE4"));
-        sliderModelArrayList.add(new sliderModel(R.drawable.user,"#077AE4"));*/
+        homePageModelfakeList.add(new HomePageModel(
+                0,sliderModelList
+        ));
+        homePageModelfakeList.add(new HomePageModel(
+                1,"",
+                "#ffffff"
+        ));
+        homePageModelfakeList.add(new HomePageModel(
+                2,"",
+                "#ffffff",horizontalproductmodelList,
+                new ArrayList<Wishist_model>()
+        ));
+        homePageModelfakeList.add(new HomePageModel(
+                3,"",
+                "#ffffff",horizontalproductmodelList
+        ));
 
 
-        ////////////////////////Banner
-
-        //////strop ad
-
-        //////strop ad
-
-
-        /////////////horizontal product layout
-     //   ArrayList<horizontalproductmodel> horizontalproductmodelArrayList=new ArrayList<>();
-
-        /////////////horizontal product layout
-
-
-
-
-
-
-        ///////// final recycler
+/////home fake list
 
 
 
         LinearLayoutManager finallinear=new LinearLayoutManager(this);
         finallinear.setOrientation(LinearLayoutManager.VERTICAL);
         caterecycler.setLayoutManager(finallinear);
-
-     //   ArrayList<HomePageModel> homePageModelArrayList=new ArrayList<>();
-       /* homePageModelArrayList.add(new HomePageModel(0,sliderModelArrayList));
-        homePageModelArrayList.add(new HomePageModel(1,R.mipmap.logo,"#000000"));
-        homePageModelArrayList.add(new HomePageModel(2,"DEALS OF THE DAY",horizontalproductmodelArrayList));
-        homePageModelArrayList.add(new HomePageModel(2,"DEALS OF THE DAY",horizontalproductmodelArrayList));
-        homePageModelArrayList.add(new HomePageModel(1,R.mipmap.logo,"#000000"));
-        homePageModelArrayList.add(new HomePageModel(3,"DEALS OF THE DAY",horizontalproductmodelArrayList));
-        homePageModelArrayList.add(new HomePageModel(3,"DEALS OF THE DAY",horizontalproductmodelArrayList));
-        homePageModelArrayList.add(new HomePageModel(1,R.mipmap.logo,"#000000"));
-        homePageModelArrayList.add(new HomePageModel(1,R.mipmap.logo,"#ffff00"));
-        homePageModelArrayList.add(new HomePageModel(1,R.mipmap.logo,"#000000"));*/
+        adapter=new homepageadapter(homePageModelfakeList);
 
        int listpos=0;
        for(int x=0;x<cListName.size(); x++)
@@ -102,16 +105,15 @@ RecyclerView caterecycler;
        if(listpos==0)
        { cList.add(new ArrayList<HomePageModel>());
            cListName.add(title.toUpperCase());
-           adapter=new homepageadapter(cList.get(cListName.size()-1));
 
-           DBQuiries.setFragmentdata(adapter,this,cListName.size()-1,title);
+
+           DBQuiries.setFragmentdata(caterecycler,this,cListName.size()-1,title);
        }
        else
        {
            adapter=new homepageadapter(cList.get(listpos));
 
        }
-
         caterecycler.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 

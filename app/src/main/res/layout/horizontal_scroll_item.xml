@@ -14,7 +14,7 @@
         android:layout_width="80dp"
         android:scaleType="fitCenter"
         android:layout_height="75dp"
-        android:src="@drawable/ic_baseline_phone_android_24"/>
+        android:src="@drawable/placeholder"/>
     <TextView
         android:id="@+id/hsproducttitle"
         android:layout_width="match_parent"

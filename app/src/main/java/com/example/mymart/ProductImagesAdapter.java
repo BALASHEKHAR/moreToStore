@@ -27,7 +27,7 @@ class ProductImagesAdapter extends PagerAdapter {
         ImageView image=new ImageView(container.getContext());
        // image.setImageResource(productImages.get(position));
         Glide.with(container.getContext()).load(productImages.get(position))
-                .apply(new RequestOptions().placeholder(R.drawable.ic_baseline_home_24)).into(image);
+                .apply(new RequestOptions().placeholder(R.drawable.bplaceholder)).into(image);
         container.addView(image);
         return image;
     }

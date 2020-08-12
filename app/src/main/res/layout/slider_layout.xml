@@ -10,7 +10,8 @@ android:background="@drawable/sliderbackground"
     <ImageView
         android:id="@+id/banner_slide"
         android:scaleType="fitCenter"
-        android:src="@android:color/holo_orange_dark"
+        android:layout_margin="3dp"
+        android:src="@drawable/bplaceholder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,7 +19,7 @@ import java.util.ArrayList;
 
 class categoryAdapter extends RecyclerView.Adapter<categoryAdapter.categoryViewHolder> {
     private ArrayList<categoryModel> categoryModelArrayList;
-
+int lastPos=-1;
     public categoryAdapter(ArrayList<categoryModel> categoryModelArrayList) {
         this.categoryModelArrayList = categoryModelArrayList;
     }
@@ -35,7 +37,15 @@ categoryModel categoryModel=categoryModelArrayList.get(position);
         String icon=categoryModel.getCimage();
 String name=categoryModel.getCname();
 holder.setcatergoryname(name,position);
-holder.setcategoryicon(icon);
+holder.setcategoryicon(icon,position);
+        if(lastPos<position)
+        {
+            lastPos=position;
+            Animation animation= AnimationUtils.loadAnimation(holder.itemView.getContext()
+                    ,R.anim.fade_n);
+            holder.itemView.setAnimation(animation);
+        }
+
     }
 
     @Override
@@ -52,26 +62,39 @@ holder.setcategoryicon(icon);
             cimage=itemView.findViewById(R.id.cimage);
             cname=itemView.findViewById(R.id.cname);
         }
-        private void setcategoryicon(String uri)
+        private void setcategoryicon(String uri,int pos)
         {
 
-            Glide.with(itemView.getContext()).load(uri).apply(new RequestOptions()
-            .placeholder(R.drawable.ic_baseline_home_24)).into(cimage);
+            if(pos==0) {
+                cimage.setImageResource(R.drawable.ic_baseline_home_24);
+            }
+            else
+            {
+                Glide.with(itemView.getContext()).load(uri).apply(new RequestOptions()
+                        .placeholder(R.drawable.small_placeholder)).into(cimage);
+            }
+
         }
 
         private void setcatergoryname(final String name, final int position)
         {
             cname.setText(name);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(position!=0){
-                        Intent ci=new Intent(itemView.getContext(),CategoryActivity.class);
-                        ci.putExtra("title",name);
-                        itemView.getContext().startActivity(ci);
+            if(!name.equals(""))
+            {
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(position!=0){
+                            Intent ci=new Intent(itemView.getContext(),CategoryActivity.class);
+                            ci.putExtra("title",name);
+                            itemView.getContext().startActivity(ci);
+                        }
                     }
-                }
-            });
+                });
+            }
+
+
+
         }
     }
 }

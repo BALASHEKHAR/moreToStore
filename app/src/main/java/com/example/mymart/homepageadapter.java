@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.GridView;
@@ -33,6 +35,8 @@ import java.util.TimerTask;
 class homepageadapter extends RecyclerView.Adapter {
     private List<HomePageModel> homePageModelArrayList;
 RecyclerView.RecycledViewPool recycledViewPool;
+    private int lastPos=-1;
+
     public homepageadapter(List<HomePageModel> homePageModelArrayList) {
         this.homePageModelArrayList = homePageModelArrayList;
         recycledViewPool=new RecyclerView.RecycledViewPool();
@@ -118,9 +122,20 @@ switch (homePageModelArrayList.get(position).getType())
         break;
 
     default:
-
+return;
 
 }
+
+///animation
+        if(lastPos<position)
+        {
+            lastPos=position;
+            Animation animation= AnimationUtils.loadAnimation(holder.itemView.getContext()
+                    ,R.anim.fade_n);
+            holder.itemView.setAnimation(animation);
+        }
+
+///animation
     }
 
     public class BannerSliderViewHolder extends RecyclerView.ViewHolder {
@@ -248,7 +263,8 @@ arrangedList.add(0,sliderModelArrayList.get(1));
         public void setstrpad(String res,String color)
         {
            // stripimage.setImageResource(res);
-            Glide.with(itemView.getContext()).load(res).apply(new RequestOptions().placeholder(R.drawable.ic_baseline_home_24)).into(stripimage);
+            Glide.with(itemView.getContext()).load(res).apply(new RequestOptions().placeholder(
+                    R.drawable.bplaceholder)).into(stripimage);
             stripimage.setBackgroundColor(Color.parseColor(color));
         }
     }
@@ -325,7 +341,7 @@ arrangedList.add(0,sliderModelArrayList.get(1));
 
           //      productImage.setImageResource(horizontalproductmodelArrayList.get(i).getPimage());
                 Glide.with(itemView.getContext()).load(horizontalproductmodelArrayList.get(i).getPimage()).
-                        apply(new RequestOptions().placeholder(R.drawable.ic_baseline_home_24
+                        apply(new RequestOptions().placeholder(R.drawable.placeholder
                 )).into(productImage);
 
                 productTitle.setText(horizontalproductmodelArrayList.get(i).getPname());
@@ -333,13 +349,20 @@ arrangedList.add(0,sliderModelArrayList.get(1));
                 productPrice.setText("RS: "+horizontalproductmodelArrayList.get(i).getPprice()+"/-");
 
                 ggrid.getChildAt(i).setBackgroundColor(Color.parseColor("#ffffff"));
-       ggrid.getChildAt(i).setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               Intent i=new Intent(itemView.getContext(),ProductDetailsActivity.class);
-               itemView.getContext().startActivity(i);
-           }
-       });
+                if(!title.equals(""))
+                {
+                    final int finalI = i;
+                    ggrid.getChildAt(i).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent ii=new Intent(itemView.getContext(),ProductDetailsActivity.class);
+                        ii.putExtra("PRODUCT_ID",
+                                horizontalproductmodelArrayList.get(finalI).getProduct_ID());
+                            itemView.getContext().startActivity(ii);
+                        }
+                    });
+                }
+
 
             }
 
@@ -350,11 +373,15 @@ arrangedList.add(0,sliderModelArrayList.get(1));
             gmore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ViewAllActivity.horizontalproductmodelArrayList=horizontalproductmodelArrayList;
-                    Intent i=new Intent(itemView.getContext(),ViewAllActivity.class);
-                    i.putExtra("layout_code",1);
-                    i.putExtra("title",title);
-                    itemView.getContext().startActivity(i);
+                    if(!title.equals(""))
+                    {
+                        ViewAllActivity.horizontalproductmodelArrayList=horizontalproductmodelArrayList;
+                        Intent i=new Intent(itemView.getContext(),ViewAllActivity.class);
+                        i.putExtra("layout_code",1);
+                        i.putExtra("title",title);
+                        itemView.getContext().startActivity(i);
+                    }
+
                 }
             });
         }

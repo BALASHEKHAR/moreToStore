@@ -44,6 +44,8 @@ public class RegisterActivity extends AppCompatActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode==KeyEvent.KEYCODE_BACK)
         {
+            SiginFragment.disbale_close_button=false;
+            SignupFragment.disbale_close_button=false;
             if(temp)
             {
                 temp=false;

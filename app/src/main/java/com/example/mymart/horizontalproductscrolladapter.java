@@ -36,10 +36,8 @@ class horizontalproductscrolladapter extends RecyclerView.Adapter<horizontalprod
         String hname=horizontalproductmodelArrayList.get(position).getPname();
         String hdesc=horizontalproductmodelArrayList.get(position).getPdesc();
         String hprice=horizontalproductmodelArrayList.get(position).getPprice();
-        holder.setHimage(res);
-        holder.setHname(hname);
-        holder.setHdesc(hdesc);
-        holder.setHprice(hprice);
+        String productid=horizontalproductmodelArrayList.get(position).getProduct_ID();
+        holder.setHimage(productid,res,hname,hdesc,hprice);
 
     }
 
@@ -61,35 +59,30 @@ class horizontalproductscrolladapter extends RecyclerView.Adapter<horizontalprod
             hname=itemView.findViewById(R.id.hsproducttitle);
             hdesc=itemView.findViewById(R.id.hsproductdesc);
             hprice=itemView.findViewById(R.id.hsproductprice);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent=new Intent(itemView.getContext(),ProductDetailsActivity.class);
-                    itemView.getContext().startActivity(intent);
-                }
-            });
+
         }
-        private  void  setHimage(String res)
+        private  void  setHimage(final String productid, String res, String s, String ss, String sss)
         {
            // Log.d("uel",res);
             Glide.with(itemView.getContext()).load(res).apply(new RequestOptions()
-                    .placeholder(R.drawable.ic_baseline_home_24)).into(himage);
+                    .placeholder(R.drawable.placeholder)).into(himage);   hname.setText(s);    hdesc.setText(ss);hprice.setText("RS: "+sss+"/-");
+                    if(!s.equals(""))
+                    {
+                        itemView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent=new Intent(itemView.getContext(),ProductDetailsActivity.class);
+                             intent.putExtra("PRODUCT_ID",
+                                      productid );
+                                itemView.getContext().startActivity(intent);
+                            }
+                        });
+                    }
         }
-        public void setHname(String s)
-        {
-            hname.setText(s);
 
-        }
-        public void setHdesc(String s)
-        {
-            hdesc.setText(s);
 
-        }
-        public void setHprice(String s)
-        {
-hprice.setText("RS: "+s+"/-");
 
-        }
+
 
     }
 }

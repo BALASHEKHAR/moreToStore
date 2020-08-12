@@ -78,6 +78,7 @@ public class SiginFragment extends Fragment {
 
     EditText email,password;
     ProgressBar progressBar;
+   public static boolean disbale_close_button=false;
 
     Button signinbutton;
     ImageButton close;
@@ -103,6 +104,12 @@ public class SiginFragment extends Fragment {
         firebaseAuth=FirebaseAuth.getInstance();
         forgotpassword=v.findViewById(R.id.signinforgotpassword);
 
+        if(disbale_close_button)
+        {
+            close.setVisibility(View.GONE);
+        }
+        else
+            close.setVisibility(View.VISIBLE);
         return v;
     }
 
@@ -198,7 +205,7 @@ openAcctivity();
     {
         if(email.getText().toString().matches(EMAIL_PATTERN))
         {
-            if(password.length()>=8)
+            if(password.length()>0)
             {
                 progressBar.setVisibility(View.VISIBLE);
                 signinbutton.setEnabled(false);
@@ -226,7 +233,7 @@ openAcctivity();
             }
             else
             {
-                Toast.makeText(getActivity(), "Password is too short", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Enter Password", Toast.LENGTH_SHORT).show();
             }
 
         }
@@ -238,9 +245,20 @@ openAcctivity();
     }
     private void openAcctivity()
     {
-        Intent i=new Intent(getActivity(),MainActivity.class);
-        startActivity(i);
-        getActivity().finish();
+        if(disbale_close_button==true)
+        {
+            disbale_close_button=false;
 
-    }
+        }
+        else
+        {
+            Intent i=new Intent(getActivity(),MainActivity.class);
+            startActivity(i);
+            disbale_close_button=false;
+
+        }
+
+
+
+    getActivity().finish();    }
 }

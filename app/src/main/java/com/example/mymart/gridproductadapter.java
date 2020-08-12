@@ -2,6 +2,7 @@ package com.example.mymart;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +38,7 @@ class gridproductadapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, final ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
         View v;
         if(convertView==null)
         {
@@ -49,6 +50,8 @@ class gridproductadapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     Intent intent=new Intent(parent.getContext(),ProductDetailsActivity.class);
+               //     Log.d("AAA",horizontalproductmodelArrayList.get(position).getProduct_ID());
+                    intent.putExtra("PRODUCT_ID",horizontalproductmodelArrayList.get(position).getProduct_ID());
                     parent.getContext().startActivity(intent);
                 }
             });
@@ -58,7 +61,7 @@ class gridproductadapter extends BaseAdapter {
             TextView productprice=v.findViewById(R.id.hsproductprice);
          //   productimage.setImageResource(horizontalproductmodelArrayList.get(position).getPimage());
             Glide.with(parent.getContext()).load(horizontalproductmodelArrayList.get(position).getPimage()).
-                    apply(new RequestOptions().placeholder(R.drawable.ic_baseline_home_24)).into(productimage);
+                    apply(new RequestOptions().placeholder(R.drawable.placeholder)).into(productimage);
             productname.setText(horizontalproductmodelArrayList.get(position).getPname());
             productdesc.setText(horizontalproductmodelArrayList.get(position).getPdesc());
             productprice.setText(horizontalproductmodelArrayList.get(position).getPprice());
