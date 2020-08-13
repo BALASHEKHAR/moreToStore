@@ -5,7 +5,7 @@ android {
     compileSdkVersion 29
 
     defaultConfig {
-        applicationId "com.example.mymart"
+        applicationId "com.example.moreToStore"
         minSdkVersion 25
         targetSdkVersion 29
         versionCode 1

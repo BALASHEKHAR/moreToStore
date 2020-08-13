@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.mymart">
+    package="com.example.moreToStore">
 
     <uses-permission android:name="android.permission.INTERNET" />
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -12,25 +12,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ViewAllActivity"></activity>
-        <activity android:name=".MyAddressesActivty" />
+        <activity android:name="com.example.moreToStore.ViewAllActivity"></activity>
+        <activity android:name="com.example.moreToStore.MyAddressesActivty" />
         <activity
-            android:name=".AddAddressActivity"
+            android:name="com.example.moreToStore.AddAddressActivity"
             android:theme="@style/progressTheme" />
-        <activity android:name=".DeliveryActivity" />
-        <activity android:name=".OrderDetailsActivity" />
-        <activity android:name=".ProductDetailsActivity" />
-        <activity android:name=".CategoryActivity" />
+        <activity android:name="com.example.moreToStore.DeliveryActivity" />
+        <activity android:name="com.example.moreToStore.OrderDetailsActivity" />
+        <activity android:name="com.example.moreToStore.ProductDetailsActivity" />
+        <activity android:name="com.example.moreToStore.CategoryActivity" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.moreToStore.MainActivity"
             android:label="@string/title_activity_main"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".RegisterActivity"
+            android:name="com.example.moreToStore.RegisterActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SplashActivity"
+            android:name="com.example.moreToStore.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/splasTheme">
             <intent-filter>
