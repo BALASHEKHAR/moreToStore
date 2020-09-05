@@ -24,8 +24,10 @@ public class ProductDescriptionFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    static  String bodyy="NNN";
 
-    public ProductDescriptionFragment() {
+    public ProductDescriptionFragment(String code) {
+        bodyy=code;
         // Required empty public constructor
     }
 
@@ -39,7 +41,7 @@ public class ProductDescriptionFragment extends Fragment {
      */
     // TODO: Rename and change types and number of parameters
     public static ProductDescriptionFragment newInstance(String param1, String param2) {
-        ProductDescriptionFragment fragment = new ProductDescriptionFragment();
+        ProductDescriptionFragment fragment = new ProductDescriptionFragment(bodyy);
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -56,7 +58,7 @@ public class ProductDescriptionFragment extends Fragment {
         }
     }
 TextView descrYext;
-    public static String body;
+
     //public  static  String productDescri;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,7 +66,7 @@ TextView descrYext;
         // Inflate the layout for this fragment
         View v= inflater.inflate(R.layout.fragment_product_description, container, false);
         descrYext= v.findViewById(R.id.tvproductdescr);
-        descrYext.setText(body);
+        descrYext.setText(bodyy);
 
         return v;
     }

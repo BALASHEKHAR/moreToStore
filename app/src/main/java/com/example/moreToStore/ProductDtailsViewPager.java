@@ -1,5 +1,7 @@
 package com.example.moreToStore;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -21,15 +23,18 @@ class ProductDtailsViewPager extends FragmentPagerAdapter {
         tabs=tabCount;
     }
 
+
     @NonNull
     @Override
     public Fragment getItem(int position) {
         switch (position)
         {
             case 0:
-            // Log.d("aaaa",product_descc);
-             ProductDescriptionFragment p=new ProductDescriptionFragment();
-                p.body=product_descc;
+
+
+             ProductDescriptionFragment p=new ProductDescriptionFragment(product_descc);
+
+
                 return p;
 
             case 1:
@@ -37,8 +42,8 @@ class ProductDtailsViewPager extends FragmentPagerAdapter {
                 return new ProductSpecficationFragment();
 
             case 2:
-                ProductDescriptionFragment pp=new ProductDescriptionFragment();
-                pp.body=product_otherr;
+                ProductDescriptionFragment pp=new ProductDescriptionFragment(product_otherr);
+
                 return pp;
 
 
