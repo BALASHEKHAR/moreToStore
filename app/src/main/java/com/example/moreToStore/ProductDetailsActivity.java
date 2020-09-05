@@ -518,7 +518,8 @@ public class ProductDetailsActivity extends AppCompatActivity {
                                                     (long) ds.get("total_ratings"),
                                                     (String) ds.get("product_price"),
                                                     (String) ds.get("cutted_price"),
-                                                    (boolean) ds.get("COD")));
+                                                    (boolean) ds.get("COD"),
+                                                    (boolean) ds.get("in_stock")));
 
 
                                         }
@@ -776,7 +777,9 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
                 if (currentUser == null) {
                     signinDialog.show();
-                } else { LoadingDialog.show();
+                } else {
+                    DeliveryActivity.fromcart=false;
+                    LoadingDialog.show();
                     productdetailsactivity=ProductDetailsActivity.this;
 
                     DeliveryActivity.cart_item_modelList = new ArrayList<>();

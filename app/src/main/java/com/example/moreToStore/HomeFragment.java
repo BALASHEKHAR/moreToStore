@@ -266,10 +266,12 @@ public class HomeFragment extends Fragment {
 
     private void reloadPage() {
 
-        categoryModels.clear();
+        /*categoryModels.clear();
         cList.clear();
-        cListName.clear();
+        cListName.clear();*/
+
         nf = cm.getActiveNetworkInfo();
+        DBQuiries.clearData();
         if (nf != null && nf.isConnected() == true) {
             drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
             Noconnection.setVisibility(View.GONE);
