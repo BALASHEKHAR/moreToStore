@@ -72,7 +72,7 @@
             android:backgroundTint="#70ffffff"
             android:textColor="#fff"
             android:hint="Password(Min 8 char)"
-            android:inputType="textEmailAddress"
+            android:inputType="textPassword"
             android:textColorHint="#70ffffff"
             />
         <EditText
@@ -86,7 +86,7 @@
             android:textColor="#fff"
             android:backgroundTint="#70ffffff"
             android:hint="ConfirmPassword"
-            android:inputType="textEmailAddress"
+            android:inputType="textPassword"
             android:textColorHint="#70ffffff"
             />
         <ProgressBar

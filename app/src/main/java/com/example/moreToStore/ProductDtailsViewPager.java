@@ -32,7 +32,9 @@ class ProductDtailsViewPager extends FragmentPagerAdapter {
             case 0:
 
 
-             ProductDescriptionFragment p=new ProductDescriptionFragment(product_descc);
+             ProductDescriptionFragment p=new ProductDescriptionFragment();
+             p.bodyy=(product_descc);
+
 
 
                 return p;
@@ -42,8 +44,8 @@ class ProductDtailsViewPager extends FragmentPagerAdapter {
                 return new ProductSpecficationFragment();
 
             case 2:
-                ProductDescriptionFragment pp=new ProductDescriptionFragment(product_otherr);
-
+                ProductDescriptionFragment pp=new ProductDescriptionFragment();
+                pp.bodyy=(product_otherr);
                 return pp;
 
 

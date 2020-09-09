@@ -58,7 +58,7 @@
             android:backgroundTint="#70ffffff"
             android:hint="Password"
             android:textColor="#fff"
-            android:inputType="textEmailAddress"
+            android:inputType="textPassword"
             android:textColorHint="#70ffffff"
             />
         <TextView

@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 
     public static final  int REWARDS_FRAG=4;
     public static final  int ACCOUNT_FRAG=5;
+    public static boolean resetmain=false;
     public  static  DrawerLayout drawer;
     public  static Activity mainActivity;
 
@@ -136,6 +137,14 @@ private  int currentfrag=-1;
         {
             navigationView.getMenu().getItem(navigationView.getMenu().size()-1
             ).setEnabled(true);
+        }
+        if(resetmain)
+        {
+            action_bar_logo.setVisibility(View.VISIBLE);
+            resetmain=false;
+            setfragment(new HomeFragment(),HOME_FRAG);
+            navigationView.getMenu().getItem(0).setChecked(true);
+
         }
 
 invalidateOptionsMenu();

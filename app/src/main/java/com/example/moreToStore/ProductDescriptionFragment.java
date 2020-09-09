@@ -24,10 +24,10 @@ public class ProductDescriptionFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    static  String bodyy="NNN";
+   public   String bodyy="NNN";
 
-    public ProductDescriptionFragment(String code) {
-        bodyy=code;
+    public ProductDescriptionFragment( ) {
+
         // Required empty public constructor
     }
 
@@ -41,7 +41,7 @@ public class ProductDescriptionFragment extends Fragment {
      */
     // TODO: Rename and change types and number of parameters
     public static ProductDescriptionFragment newInstance(String param1, String param2) {
-        ProductDescriptionFragment fragment = new ProductDescriptionFragment(bodyy);
+        ProductDescriptionFragment fragment = new ProductDescriptionFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
