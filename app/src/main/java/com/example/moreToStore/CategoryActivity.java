@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -106,7 +107,7 @@ RecyclerView caterecycler;
            cListName.add(title.toUpperCase());
 
 
-           DBQuiries.setFragmentdata(caterecycler,this,cListName.size()-1,title);
+           DBQuiries.loadFragmentdata(caterecycler,this,cListName.size()-1,title);
        }
        else
        {
@@ -130,7 +131,8 @@ RecyclerView caterecycler;
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId()==R.id.mainsearchicon)
         {
-            //TODO:
+            Intent searchI=new Intent(this,searchActivity.class);
+            startActivity(searchI);
             return true;
 
         }

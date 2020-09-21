@@ -223,7 +223,7 @@ public class HomeFragment extends Fragment {
                 cListName.add("HOME");
 
 
-                DBQuiries.setFragmentdata(
+                DBQuiries.loadFragmentdata(
                         finalrecycler, getContext(), 0, "Home");
             } else {
                 adapter = new homepageadapter(cList.get(0));
@@ -287,7 +287,7 @@ public class HomeFragment extends Fragment {
             cListName.add("HOME");
             //  adapter=new homepageadapter(cList.get(0));
 
-            DBQuiries.setFragmentdata(finalrecycler, getContext(), 0, "Home");
+            DBQuiries.loadFragmentdata(finalrecycler, getContext(), 0, "Home");
 
 
         } else {

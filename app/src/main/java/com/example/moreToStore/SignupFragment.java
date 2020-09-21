@@ -268,8 +268,10 @@ public class SignupFragment extends Fragment {
                                     if(task.isSuccessful())
                                     {
                                         Map<String,Object> user=new HashMap<>();
-                                        user.put("name",name.getText().toString());
-                                        firebaseFirestore.collection("USERS").
+                                        user.put("fullname",name.getText().toString());
+                                        user.put("email",email.getText().toString());
+                                        user.put("profile","");
+                                     firebaseFirestore.collection("USERS").
                                                 document(firebaseAuth.getUid())
                                                 .set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
@@ -288,6 +290,7 @@ public class SignupFragment extends Fragment {
                                                     documentName.add("MY_RATINGS");
                                                     documentName.add("MY_CART");
                                                     documentName.add("MY_ADDRESSES");
+                                                    documentName.add("MY_NOTIFICATIONS");
 
 
                                                     //maps
@@ -298,6 +301,10 @@ public class SignupFragment extends Fragment {
                                                     Map<String,Object> cartMap=new HashMap<>();
                                                     cartMap.put("list_size",(long)0);
 
+                                                    Map<String,Object> notificationMap=new HashMap<>();
+                                                    notificationMap.put("list_size",(long)0);
+
+
                                                     Map<String,Object> myAddressMap=new HashMap<>();
                                                     myAddressMap.put("list_size",(long)0);
                                                     //maps
@@ -307,6 +314,7 @@ public class SignupFragment extends Fragment {
                                                     documentFields.add(ratingMap);
                                                     documentFields.add(cartMap);
                                                     documentFields.add(myAddressMap);
+                                                    documentFields.add(notificationMap);
 
                                                     for(int x=0;x<documentName.size();x++)
                                                     {

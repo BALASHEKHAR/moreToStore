@@ -1,8 +1,11 @@
 package com.example.moreToStore;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -12,13 +15,21 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -27,6 +38,11 @@ import androidx.fragment.app.Fragment;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.example.moreToStore.RegisterActivity.signupfrag;
 
@@ -46,12 +62,18 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
     FirebaseUser currentUser;
     TextView badgeCount;
 
+    CircleImageView profileView;
+    TextView email,fullname;
+    ImageView addProfileIcon;
+
+
 
     public  static boolean showcart=false;
 
     Window window;
     Toolbar toolbar;
      Dialog signinDialog;
+       Dialog cancelDialog;
 
     ImageView action_bar_logo;
 FrameLayout defaultframe;
@@ -61,6 +83,36 @@ private  int currentfrag=-1;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
+
+        //cancel gialog
+        cancelDialog= new Dialog(MainActivity.this);
+        cancelDialog.setContentView(R.layout.order_cancel_dialog);
+        cancelDialog.setCancelable(true);
+        cancelDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        // cancelDialog
+        cancelDialog.findViewById(R.id.yesBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cancelDialog.dismiss();
+                FirebaseAuth.getInstance().signOut();
+                DBQuiries.clearData();
+                Intent i=new Intent(MainActivity.this,
+                        RegisterActivity.class);
+                startActivity(i);
+                finish();
+
+
+            }
+        });
+        cancelDialog.findViewById(R.id.noBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cancelDialog.dismiss();
+            }
+        });
+
+
+
         action_bar_logo=findViewById(R.id.action_bar_logo);
          toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -73,6 +125,15 @@ private  int currentfrag=-1;
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().getItem(0).setChecked(true);
         defaultframe=findViewById(R.id.mainframlayout);
+
+
+        profileView=navigationView.getHeaderView(0).findViewById(R.id.header_image);
+        fullname=navigationView.getHeaderView(0).findViewById(R.id.header_name);
+        email=navigationView.getHeaderView(0).findViewById(R.id.header_email);
+        addProfileIcon=navigationView.getHeaderView(0).findViewById(R.id.plusicon);
+
+
+
         if(showcart)
         {
             mainActivity=this;
@@ -123,20 +184,62 @@ private  int currentfrag=-1;
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        DBQuiries.checkNotifications(true,null);
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
         currentUser= FirebaseAuth.getInstance().getCurrentUser();
-
-
-        if(currentUser==null)
-        {
+        if(currentUser==null) {
             navigationView.getMenu().getItem(navigationView.getMenu().size()-1
             ).setEnabled(false);
         }
-        else
-        {
-            navigationView.getMenu().getItem(navigationView.getMenu().size()-1
-            ).setEnabled(true);
+        else {
+
+
+
+            if(DBQuiries.email==null) {
+                FirebaseFirestore.getInstance().collection("USERS").document(currentUser.getUid())
+                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DBQuiries.fullname = task.getResult().getString("fullname");
+                            DBQuiries.email = task.getResult().getString("email");
+                            DBQuiries.profile = task.getResult().getString("profile");
+
+                            fullname.setText(DBQuiries.fullname);
+                            email.setText(DBQuiries.email);
+                            if (DBQuiries.profile.equals("")) {
+                                addProfileIcon.setVisibility(View.VISIBLE);
+                            } else {
+                                addProfileIcon.setVisibility(View.INVISIBLE);
+                                Glide.with(MainActivity.this).load(DBQuiries.profile).apply(new RequestOptions().placeholder(R.drawable.placeholder)).into(profileView);
+
+                            }
+                        } else {
+                            fullname.setText(DBQuiries.fullname);
+                            email.setText(DBQuiries.email);
+                            if (DBQuiries.profile.equals("")) {
+                                profileView.setImageResource(R.drawable.user);
+                                addProfileIcon.setVisibility(View.VISIBLE);
+                            } else {
+                                addProfileIcon.setVisibility(View.INVISIBLE);
+                                Glide.with(MainActivity.this).load(DBQuiries.profile).apply(new RequestOptions().placeholder(R.drawable.placeholder)).into(profileView);
+
+                            }
+                        }
+                    }
+                });
+            }
+            else
+            {
+
+            }
+            navigationView.getMenu().getItem(navigationView.getMenu().size()-1).setEnabled(true);
         }
         if(resetmain)
         {
@@ -191,15 +294,13 @@ invalidateOptionsMenu();
        {       getSupportActionBar().setDisplayShowTitleEnabled(true);
            getMenuInflater().inflate(R.menu.main, menu);
            MenuItem cartitem=menu.findItem(R.id.maincart);
-
-
                cartitem.setActionView(R.layout.badge_layout);
                ImageView bagI=cartitem.getActionView().findViewById(R.id.badge_icon);
                badgeCount=cartitem.getActionView().findViewById(R.id.badge_count);
                // bagC.setText(String.valueOf(DBQuiries.cartList.size()));
 
 
-               bagI.setImageResource(R.drawable.ic_baseline_shopping_cart_24);
+           bagI.setImageResource(R.drawable.ic_baseline_shopping_cart_24);
 if(currentUser!=null)
 {
     if (DBQuiries.cartList.size() == 0) {
@@ -222,9 +323,7 @@ if(currentUser!=null)
     }
 
 }
-
-
-               cartitem.getActionView().setOnClickListener(new View.OnClickListener() {
+cartitem.getActionView().setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
 
@@ -236,8 +335,25 @@ if(currentUser!=null)
     }
 });
 
+     MenuItem notifytem=menu.findItem(R.id.mainnotificationitem);
+           notifytem.setActionView(R.layout.badge_layout);
+           ImageView notifyIcon=notifytem.getActionView().findViewById(R.id.badge_icon);
+           notifyIcon.setImageResource(R.drawable.ic_baseline_notifications_24);
+           TextView notifyCount=notifytem.getActionView().findViewById(R.id.badge_count);
 
-     }   return true;
+           if(currentUser!=null)
+           {
+               DBQuiries.checkNotifications(false,notifyCount);
+           }
+           notifytem.getActionView().setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View v) {
+                   Intent noi=new Intent(MainActivity.this,notificationActivity.class);
+                   startActivity(noi);
+               }
+           });
+
+       }   return true;
     }
 
 
@@ -245,16 +361,18 @@ if(currentUser!=null)
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId()==R.id.mainsearchicon)
         {
-            //TODO:
+         Intent searchI=new Intent(this,searchActivity.class);
+         startActivity(searchI);
             return true;
 
         }
-        else if(item.getItemId()==R.id.mainnotificationitem)
+         if(item.getItemId()==R.id.mainnotificationitem)
         {
-            //TODO:
+          Intent noi=new Intent(this,notificationActivity.class);
+          startActivity(noi);
             return true;
         }
-        else  if(item.getItemId()==R.id.maincart)
+          if(item.getItemId()==R.id.maincart)
         {
 
             if(currentUser==null)
@@ -263,7 +381,7 @@ if(currentUser!=null)
            gotoFragment("My Cart",new MyCartFragment(),CART_FRAG);
             return true;
         }
-        else if(item.getItemId()==android.R.id.home)
+         if(item.getItemId()==android.R.id.home)
         {
             if(showcart)
             {
@@ -340,15 +458,9 @@ MenuItem menuItem;
                     }
                     else if(id==R.id.nav_signout)
                     {
-                        FirebaseAuth.getInstance().signOut();
-                        DBQuiries.clearData();
-                        Intent i=new Intent(MainActivity.this,
-                                RegisterActivity.class);
-                        startActivity(i);
-                        finish();
-
+                        cancelDialog.show();
                     }
-
+                    drawer.removeDrawerListener(this);
 
                 }
             });
