@@ -16,6 +16,7 @@ import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -25,6 +26,10 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +40,7 @@ class homepageadapter extends RecyclerView.Adapter {
     private List<HomePageModel> homePageModelArrayList;
 RecyclerView.RecycledViewPool recycledViewPool;
     private int lastPos=-1;
+    FirebaseFirestore firebaseFirestore=FirebaseFirestore.getInstance();
 
     public homepageadapter(List<HomePageModel> homePageModelArrayList) {
         this.homePageModelArrayList = homePageModelArrayList;
@@ -282,11 +288,53 @@ arrangedList.add(0,sliderModelArrayList.get(1));
             hsltitle=v.findViewById(R.id.horizontalscrolllayouttitle);
             hslmore=v.findViewById(R.id.horizontalscrolllayoutbutton);
         }
-        private void sethorizontalproduct(ArrayList<horizontalproductmodel> horizontalproductmodelArrayList,
+        private void sethorizontalproduct(final ArrayList<horizontalproductmodel> horizontalproductmodelArrayList,
                                           final String title, String parsecolor, final List<Wishist_model> viewallproductList)
         {
             containerr.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(parsecolor)));
             hsltitle.setText(title);
+
+            for(final horizontalproductmodel model:horizontalproductmodelArrayList)
+            {
+                if(!model.getProduct_ID().isEmpty() && model.getPname().isEmpty())
+                {
+                    firebaseFirestore.collection("PRODUCTS").document(model.getProduct_ID()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if(task.isSuccessful())
+                            {
+                                    model.setPname(task.getResult().getString("product_title"));
+                                    model.setPimage(task.getResult().getString("product_image_1"));
+                                    model.setPprice(task.getResult().getString("product_price"));
+                                    Wishist_model wishist_model=viewallproductList.get(horizontalproductmodelArrayList.indexOf(model));
+                                    wishist_model.setTotalRating(task.getResult().getLong("total_ratings"));
+                                    wishist_model.setRating(task.getResult().getString("average_rating"));
+                                    wishist_model.setProductTitle(task.getResult().getString("product_title"));
+                                    wishist_model.setProductprice(task.getResult().getString("product_price"));
+                                    wishist_model.setProdImage(task.getResult().getString("product_image_1"));
+                                    wishist_model.setProductCoup(task.getResult().getLong("free_coupens"));
+                                    wishist_model.setCuttedprice(task.getResult().getString("cutted_price"));
+                                    wishist_model.setCOD(task.getResult().getBoolean("COD"));
+                                    wishist_model.setInstock(task.getResult().getLong("stock_quantity")>0);
+
+                                if(horizontalproductmodelArrayList.indexOf(model)==horizontalproductmodelArrayList.size()-1)
+                                {
+                                    if(hslrecyclerView.getAdapter()!=null)
+                                    {
+                                        hslrecyclerView.getAdapter().notifyDataSetChanged();
+                                    }
+
+                                }
+
+                            }
+                            else
+                            {
+
+                            }
+                        }
+                    });
+                }
+            }
             if(horizontalproductmodelArrayList.size()>8)
             {    hslmore.setVisibility(View.VISIBLE);
             hslmore.setOnClickListener(new View.OnClickListener() {
@@ -329,7 +377,61 @@ arrangedList.add(0,sliderModelArrayList.get(1));
         {
             containerw.setBackgroundColor(Color.parseColor(color));
             gname.setText(title);
+
+
+            for(final horizontalproductmodel model:horizontalproductmodelArrayList)
+            {
+                if(!model.getProduct_ID().isEmpty() && model.getPname().isEmpty())
+                {
+                    firebaseFirestore.collection("PRODUCTS").document(model.getProduct_ID()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if(task.isSuccessful())
+                            {
+                                model.setPname(task.getResult().getString("product_title"));
+                                model.setPimage(task.getResult().getString("product_image_1"));
+                                model.setPprice(task.getResult().getString("product_price"));
+
+
+                                if(horizontalproductmodelArrayList.indexOf(model)==horizontalproductmodelArrayList.size()-1)
+                                {
+                                    setGrid(title,horizontalproductmodelArrayList);
+                                    if(!title.equals(""))
+                                    {
+                                        gmore.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+
+                                                ViewAllActivity.horizontalproductmodelArrayList=horizontalproductmodelArrayList;
+                                                Intent i=new Intent(itemView.getContext(),ViewAllActivity.class);
+                                                i.putExtra("layout_code",1);
+                                                i.putExtra("title",title);
+                                                itemView.getContext().startActivity(i);
+
+
+                                            }
+                                        }); }
+                                }
+
+                            }
+                            else
+                            {
+                                Toast.makeText(itemView.getContext(),task.getException().getMessage(),Toast.LENGTH_LONG).show();
+
+                            }
+                        }
+                    });
+                }
+            }
            // ggrid.setAdapter(new gridproductadapter(horizontalproductmodelArrayList));
+
+
+
+
+
+        }
+        void setGrid(String title, final List<horizontalproductmodel> horizontalproductmodelArrayList)
+        {
             for(int i=0;i<4;i++)
             {
                 ImageView productImage=ggrid.getChildAt(i).findViewById(R.id.hsproductimage);
@@ -338,10 +440,10 @@ arrangedList.add(0,sliderModelArrayList.get(1));
                 TextView productPrice=ggrid.getChildAt(i).findViewById(R.id.hsproductprice);
 
 
-          //      productImage.setImageResource(horizontalproductmodelArrayList.get(i).getPimage());
+                //      productImage.setImageResource(horizontalproductmodelArrayList.get(i).getPimage());
                 Glide.with(itemView.getContext()).load(horizontalproductmodelArrayList.get(i).getPimage()).
                         apply(new RequestOptions().placeholder(R.drawable.placeholder
-                )).into(productImage);
+                        )).into(productImage);
 
                 productTitle.setText(horizontalproductmodelArrayList.get(i).getPname());
                 productDesc.setText(horizontalproductmodelArrayList.get(i).getPdesc());
@@ -355,8 +457,8 @@ arrangedList.add(0,sliderModelArrayList.get(1));
                         @Override
                         public void onClick(View v) {
                             Intent ii=new Intent(itemView.getContext(),ProductDetailsActivity.class);
-                        ii.putExtra("PRODUCT_ID",
-                                horizontalproductmodelArrayList.get(finalI).getProduct_ID());
+                            ii.putExtra("PRODUCT_ID",
+                                    horizontalproductmodelArrayList.get(finalI).getProduct_ID());
                             itemView.getContext().startActivity(ii);
                         }
                     });
@@ -366,23 +468,9 @@ arrangedList.add(0,sliderModelArrayList.get(1));
             }
 
 
-           // ggrid.setAdapter(new gridproductadapter(horizontalproductmodelArrayList));
+            // ggrid.setAdapter(new gridproductadapter(horizontalproductmodelArrayList));
 
 
-            gmore.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(!title.equals(""))
-                    {
-                        ViewAllActivity.horizontalproductmodelArrayList=horizontalproductmodelArrayList;
-                        Intent i=new Intent(itemView.getContext(),ViewAllActivity.class);
-                        i.putExtra("layout_code",1);
-                        i.putExtra("title",title);
-                        itemView.getContext().startActivity(i);
-                    }
-
-                }
-            });
         }
     }
 }

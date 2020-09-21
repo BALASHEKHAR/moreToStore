@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
     ImageView action_bar_logo;
 FrameLayout defaultframe;
 private  int currentfrag=-1;
-    NavigationView navigationView;
+  public  static NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
