@@ -1,5 +1,4 @@
 # More to Store
-Online ecommerce android application to buy
-items and add them to cart and Also an admin panel
-web application to manage the products by admin.
+### Demo
+-(https://appetize.io/app/q1edkvrn3p9r3g13x8h0qx5904?device=nexus5&scale=75&orientation=portrait&osVersion=8.1)
 
